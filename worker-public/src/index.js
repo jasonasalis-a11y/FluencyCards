@@ -9,7 +9,7 @@ export default {
       if(!env.DB)throw new Error("Missing D1 binding: DB");
       if(!env.ASSETS)throw new Error("Missing R2 binding: ASSETS");
 
-      if(url.pathname==="/api/health")return json({ok:true,service:"fluency-engine-public-api",version:"0.9.4",storage:"r2"});
+      if(url.pathname==="/api/health")return json({ok:true,service:"fluency-engine-public-api",version:"0.9.4.1",storage:"r2",pwa:true});
 
       if(url.pathname==="/api/catalog" && request.method==="GET"){
         const rows=await env.DB.prepare(`SELECT c.course_id,c.title_en,c.title_kh,c.current_version_id,v.version_label,v.r2_object_key,v.content_sha256,v.byte_size FROM courses c LEFT JOIN course_versions v ON v.version_id=c.current_version_id WHERE c.published=1 ORDER BY c.course_id`).all();
@@ -38,6 +38,7 @@ export default {
         }
         return json({accepted:events.length});
       }
+      if(env.STATIC)return env.STATIC.fetch(request);
       return json({error:"Not found"},404);
     }catch(e){return json({error:e.message||String(e)},500)}
   }

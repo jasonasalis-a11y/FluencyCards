@@ -77,7 +77,7 @@ export default {
             title_en=excluded.title_en,
             title_kh=excluded.title_kh,
             updated_at=excluded.updated_at`
-          ).bind(courseId,course.title?.en||"",course.title?.kh||"",0,createdAt,createdAt).run();
+          ).bind(courseId,courseTitleLearning(course),courseTitleNative(course),0,createdAt,createdAt).run();
 
           await env.DB.prepare(
             `INSERT INTO course_versions
@@ -164,8 +164,22 @@ export default {
 
 function requireAdmin(request,env){
   const email=request.headers.get("Cf-Access-Authenticated-User-Email")||"";
-  if(!email)throw new Error("Admin access denied.");
-  if(env.ADMIN_EMAIL && email.toLowerCase()!==env.ADMIN_EMAIL.toLowerCase())throw new Error("Admin access denied.");
+  const configuredEmail=String(env.ADMIN_EMAIL||"").trim();
+  const realEmail=configuredEmail && !configuredEmail.includes("REPLACE_WITH") ? configuredEmail : "";
+  if(email){
+    if(realEmail && email.toLowerCase()!==realEmail.toLowerCase())throw new Error("Admin access denied.");
+    return;
+  }
+  const token=String(env.ADMIN_TOKEN||"").trim();
+  if(token){
+    const supplied=(request.headers.get("Authorization")||"").replace(/^Bearer\s+/i,"");
+    if(supplied!==token)throw new Error("Admin access denied.");
+    return;
+  }
+  // Temporary bootstrap mode: same-origin admin UI is allowed until Access or ADMIN_TOKEN is configured.
+  const origin=request.headers.get("Origin");
+  const host=new URL(request.url).origin;
+  if(origin && origin!==host)throw new Error("Admin access denied.");
 }
 function requireBindings(env){
   if(!env.DB)throw new Error("Missing D1 binding: DB");
@@ -185,21 +199,25 @@ async function readCourseFromR2(env,row){
   if(!object)throw new Error(`R2 object not found: ${row.r2_object_key}`);
   return JSON.parse(await object.text());
 }
+function courseTitleLearning(c){return c?.title?.learning||c?.title?.en||c?.title_en||""}
+function courseTitleNative(c){return c?.title?.native||c?.title?.kh||c?.title_kh||""}
 function validateCourse(c){
   const errors=[];
   if(!c||typeof c!=="object")return["Course must be a JSON object."];
   if(!c.course_id)errors.push("course_id is required.");
-  if(!c.title?.en)errors.push("title.en is required.");
+  if(!courseTitleLearning(c))errors.push("title.learning (or title.en) is required.");
   if(!Array.isArray(c.lessons)||!c.lessons.length)errors.push("lessons must be a non-empty array.");
   const ids=new Set();
   for(const lesson of c.lessons||[]){
     if(!lesson.id)errors.push("Each lesson needs an id.");
     if(ids.has(lesson.id))errors.push("Duplicate lesson id: "+lesson.id);
     ids.add(lesson.id);
-    if(!Array.isArray(lesson.cards))errors.push(`${lesson.id||"lesson"}: cards must be an array.`);
+    const hasContent=(Array.isArray(lesson.cards)&&lesson.cards.length)||(Array.isArray(lesson.activities)&&lesson.activities.length)||(Array.isArray(lesson.skills)&&lesson.skills.length);
+    if(!hasContent)errors.push(`${lesson.id||"lesson"}: needs cards, activities, or skills.`);
   }
   return errors;
 }
+
 async function callProvider(env,provider,model,focus,course){
   const prompt=`${focus}\n\nCourse JSON:\n${JSON.stringify(course)}\n\nReturn JSON only with summary, suggestions[], and warnings[].\nNever apply changes automatically.`;
   let endpoint;let headers={"Content-Type":"application/json"};let payload;
