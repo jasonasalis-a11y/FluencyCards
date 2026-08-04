@@ -1,4 +1,4 @@
-name = "fluencycards"
+name = "fluency-engine"
 main = "src/index.js"
 compatibility_date = "2026-08-04"
 keep_vars = true
@@ -10,3 +10,7 @@ directory = "../admin"
 binding = "DB"
 database_name = "fluencycards"
 database_id = "a76ce432-1b37-4852-a294-efe65fb2b6e7"
+
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "fluency-engine"
