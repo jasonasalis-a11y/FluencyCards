@@ -1,8 +1,9 @@
 name = "fluencycards-api"
 main = "src/index.js"
 compatibility_date = "2026-08-04"
+keep_vars = true
 
 [[d1_databases]]
 binding = "DB"
 database_name = "fluencycards"
-database_id = "CONFIGURE_IN_CLOUDFLARE_DASHBOARD"
+database_id = "a76ce432-1b37-4852-a294-efe65fb2b6e7"
