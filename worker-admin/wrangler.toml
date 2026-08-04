@@ -1,11 +1,11 @@
-name = "fluencycards-api"
+name = "fluencycards-admin-api"
 main = "src/index.js"
 compatibility_date = "2026-08-04"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "fluencycards"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "CONFIGURE_IN_CLOUDFLARE_DASHBOARD"
 
 [vars]
 ADMIN_EMAIL = "REPLACE_WITH_YOUR_EMAIL"
