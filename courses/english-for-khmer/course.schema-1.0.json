@@ -1,0 +1,943 @@
+{
+  "schema_version": "1.0.0",
+  "course_id": "english-for-khmer",
+  "version": "0.9.3-draft",
+  "title": {
+    "learning": "English for Khmer Speakers",
+    "native": "ភាសាអង់គ្លេសសម្រាប់អ្នកនិយាយភាសាខ្មែរ"
+  },
+  "description": {
+    "learning": "Mastery-based everyday English for Khmer-speaking adults.",
+    "native": "វគ្គភាសាអង់គ្លេសប្រចាំថ្ងៃផ្អែកលើការស្ទាត់ជំនាញ។"
+  },
+  "native_language": "km",
+  "learning_language": "en-US",
+  "minimum_player_version": "0.9.3",
+  "license": "CC-BY-NC-SA-4.0",
+  "author": "Jason Salis",
+  "review_metadata": {
+    "translation_method": "AI-assisted",
+    "models_used": [],
+    "native_review_status": "partially-reviewed",
+    "native_reviewers": 1,
+    "last_language_review": "2026-08-04"
+  },
+  "mastery_policy": {
+    "required_domains": [
+      "comprehension",
+      "recall",
+      "conversation"
+    ],
+    "go_thresholds": {
+      "comprehension": 1.0,
+      "recall": 1.0,
+      "conversation": 1.0,
+      "pronunciation": 1.0
+    },
+    "max_supported_attempts": 3
+  },
+  "audit_policy": {
+    "every_n_lessons": 10,
+    "sample_size": 20,
+    "retention_intervals_days": [
+      1,
+      3,
+      7,
+      14,
+      30
+    ]
+  },
+  "lessons": [
+    {
+      "id": "M01",
+      "module_number": 1,
+      "lesson_number": 1,
+      "title": {
+        "learning": "Good Morning",
+        "native": "អរុណសួស្តី"
+      },
+      "objective": {
+        "learning": "Use common morning phrases in a short conversation.",
+        "native": "ប្រើឃ្លាពេលព្រឹកទូទៅក្នុងការសន្ទនាខ្លី។"
+      },
+      "skills": [
+        {
+          "id": "M01-S001",
+          "learning_text": "Good morning.",
+          "native_text": "អរុណសួស្តី។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C001.mp3",
+          "retraining_activity_ids": [
+            "M01-C001-INTRO",
+            "M01-C001-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S002",
+          "learning_text": "Did you sleep well?",
+          "native_text": "តើយប់មិញអ្នកគេងលក់ស្រួលទេ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C002.mp3",
+          "retraining_activity_ids": [
+            "M01-C002-INTRO",
+            "M01-C002-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S003",
+          "learning_text": "Yes, I slept well.",
+          "native_text": "បាទ/ចាស ខ្ញុំគេងលក់ស្រួល។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C003.mp3",
+          "retraining_activity_ids": [
+            "M01-C003-INTRO",
+            "M01-C003-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S004",
+          "learning_text": "Are you awake?",
+          "native_text": "តើអ្នកភ្ញាក់ហើយឬនៅ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C004.mp3",
+          "retraining_activity_ids": [
+            "M01-C004-INTRO",
+            "M01-C004-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S005",
+          "learning_text": "Almost.",
+          "native_text": "ជិតហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C005.mp3",
+          "retraining_activity_ids": [
+            "M01-C005-INTRO",
+            "M01-C005-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S006",
+          "learning_text": "Please get up.",
+          "native_text": "សូមក្រោកឡើង។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C006.mp3",
+          "retraining_activity_ids": [
+            "M01-C006-INTRO",
+            "M01-C006-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S007",
+          "learning_text": "I'm getting up.",
+          "native_text": "ខ្ញុំកំពុងក្រោកហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C007.mp3",
+          "retraining_activity_ids": [
+            "M01-C007-INTRO",
+            "M01-C007-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S008",
+          "learning_text": "Are you getting ready?",
+          "native_text": "តើអ្នកកំពុងរៀបចំខ្លួនមែនទេ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C008.mp3",
+          "retraining_activity_ids": [
+            "M01-C008-INTRO",
+            "M01-C008-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S009",
+          "learning_text": "Yes, I'm getting ready.",
+          "native_text": "បាទ/ចាស ខ្ញុំកំពុងរៀបចំខ្លួន។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C009.mp3",
+          "retraining_activity_ids": [
+            "M01-C009-INTRO",
+            "M01-C009-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S010",
+          "learning_text": "Do you need more time?",
+          "native_text": "តើអ្នកត្រូវការពេលបន្ថែមទៀតទេ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C010.mp3",
+          "retraining_activity_ids": [
+            "M01-C010-INTRO",
+            "M01-C010-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S011",
+          "learning_text": "Yes, please.",
+          "native_text": "បាទ/ចាស សូម។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C011.mp3",
+          "retraining_activity_ids": [
+            "M01-C011-INTRO",
+            "M01-C011-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S012",
+          "learning_text": "Give me a minute, please.",
+          "native_text": "សូមឱ្យខ្ញុំមួយនាទី។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C012.mp3",
+          "retraining_activity_ids": [
+            "M01-C012-INTRO",
+            "M01-C012-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S013",
+          "learning_text": "I'm almost ready.",
+          "native_text": "ខ្ញុំជិតរួចរាល់ហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C013.mp3",
+          "retraining_activity_ids": [
+            "M01-C013-INTRO",
+            "M01-C013-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S014",
+          "learning_text": "Are you ready?",
+          "native_text": "តើអ្នករួចរាល់ហើយឬនៅ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C014.mp3",
+          "retraining_activity_ids": [
+            "M01-C014-INTRO",
+            "M01-C014-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S015",
+          "learning_text": "Yes, I'm ready.",
+          "native_text": "បាទ/ចាស ខ្ញុំរួចរាល់ហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C015.mp3",
+          "retraining_activity_ids": [
+            "M01-C015-INTRO",
+            "M01-C015-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S016",
+          "learning_text": "Let's go.",
+          "native_text": "តោះ យើងទៅ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C016.mp3",
+          "retraining_activity_ids": [
+            "M01-C016-INTRO",
+            "M01-C016-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S017",
+          "learning_text": "Have a good day.",
+          "native_text": "សូមឱ្យមានថ្ងៃល្អ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C017.mp3",
+          "retraining_activity_ids": [
+            "M01-C017-INTRO",
+            "M01-C017-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S018",
+          "learning_text": "You too.",
+          "native_text": "អ្នកក៏ដូចគ្នា។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C018.mp3",
+          "retraining_activity_ids": [
+            "M01-C018-INTRO",
+            "M01-C018-RECALL"
+          ]
+        }
+      ],
+      "activities": [
+        {
+          "id": "M01-C001-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S001"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🌅",
+          "learning_text": "Good morning.",
+          "native_text": "អរុណសួស្តី។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C001.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C002-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S002"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🛏️",
+          "learning_text": "Did you sleep well?",
+          "native_text": "តើយប់មិញអ្នកគេងលក់ស្រួលទេ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C002.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C003-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S003"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🙂",
+          "learning_text": "Yes, I slept well.",
+          "native_text": "បាទ/ចាស ខ្ញុំគេងលក់ស្រួល។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C003.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C004-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S004"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "👀",
+          "learning_text": "Are you awake?",
+          "native_text": "តើអ្នកភ្ញាក់ហើយឬនៅ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C004.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C005-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S005"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "😴",
+          "learning_text": "Almost.",
+          "native_text": "ជិតហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C005.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C006-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S006"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "⏰",
+          "learning_text": "Please get up.",
+          "native_text": "សូមក្រោកឡើង។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C006.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C007-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S007"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🙋",
+          "learning_text": "I'm getting up.",
+          "native_text": "ខ្ញុំកំពុងក្រោកហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C007.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C008-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S008"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🧴",
+          "learning_text": "Are you getting ready?",
+          "native_text": "តើអ្នកកំពុងរៀបចំខ្លួនមែនទេ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C008.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C009-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S009"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "✅",
+          "learning_text": "Yes, I'm getting ready.",
+          "native_text": "បាទ/ចាស ខ្ញុំកំពុងរៀបចំខ្លួន។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C009.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C010-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S010"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "⏳",
+          "learning_text": "Do you need more time?",
+          "native_text": "តើអ្នកត្រូវការពេលបន្ថែមទៀតទេ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C010.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C011-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S011"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🙏",
+          "learning_text": "Yes, please.",
+          "native_text": "បាទ/ចាស សូម។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C011.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C012-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S012"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "☝️",
+          "learning_text": "Give me a minute, please.",
+          "native_text": "សូមឱ្យខ្ញុំមួយនាទី។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C012.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C013-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S013"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "⌛",
+          "learning_text": "I'm almost ready.",
+          "native_text": "ខ្ញុំជិតរួចរាល់ហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C013.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C014-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S014"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "❓",
+          "learning_text": "Are you ready?",
+          "native_text": "តើអ្នករួចរាល់ហើយឬនៅ?",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C014.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C015-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S015"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "👍",
+          "learning_text": "Yes, I'm ready.",
+          "native_text": "បាទ/ចាស ខ្ញុំរួចរាល់ហើយ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C015.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C016-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S016"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🚪",
+          "learning_text": "Let's go.",
+          "native_text": "តោះ យើងទៅ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C016.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C017-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S017"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "☀️",
+          "learning_text": "Have a good day.",
+          "native_text": "សូមឱ្យមានថ្ងៃល្អ។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C017.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C018-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S018"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "😊",
+          "learning_text": "You too.",
+          "native_text": "អ្នកក៏ដូចគ្នា។",
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C018.mp3",
+          "recording": true
+        }
+      ],
+      "assessment": [
+        {
+          "id": "M01-C001-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S001"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "អរុណសួស្តី។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Good morning."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C001.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C002-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S002"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "តើយប់មិញអ្នកគេងលក់ស្រួលទេ?"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Did you sleep well?"
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C002.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C003-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S003"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "បាទ/ចាស ខ្ញុំគេងលក់ស្រួល។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Yes, I slept well."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C003.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C004-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S004"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "តើអ្នកភ្ញាក់ហើយឬនៅ?"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Are you awake?"
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C004.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C005-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S005"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "ជិតហើយ។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Almost."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C005.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C006-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S006"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "សូមក្រោកឡើង។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Please get up."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C006.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C007-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S007"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "ខ្ញុំកំពុងក្រោកហើយ។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "I'm getting up."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C007.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C008-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S008"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "តើអ្នកកំពុងរៀបចំខ្លួនមែនទេ?"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Are you getting ready?"
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C008.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C009-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S009"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "បាទ/ចាស ខ្ញុំកំពុងរៀបចំខ្លួន។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Yes, I'm getting ready."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C009.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C010-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S010"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "តើអ្នកត្រូវការពេលបន្ថែមទៀតទេ?"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Do you need more time?"
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C010.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C011-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S011"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "បាទ/ចាស សូម។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Yes, please."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C011.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C012-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S012"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "សូមឱ្យខ្ញុំមួយនាទី។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Give me a minute, please."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C012.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C013-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S013"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "ខ្ញុំជិតរួចរាល់ហើយ។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "I'm almost ready."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C013.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C014-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S014"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "តើអ្នករួចរាល់ហើយឬនៅ?"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Are you ready?"
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C014.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C015-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S015"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "បាទ/ចាស ខ្ញុំរួចរាល់ហើយ។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Yes, I'm ready."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C015.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C016-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S016"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "តោះ យើងទៅ។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Let's go."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C016.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C017-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S017"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "សូមឱ្យមានថ្ងៃល្អ។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "Have a good day."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C017.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C018-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S018"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "km",
+            "text": "អ្នកក៏ដូចគ្នា។"
+          },
+          "expected": {
+            "language": "en-US",
+            "text": "You too."
+          },
+          "model_audio": "courses/english-for-khmer/audio/M01/M01-C018.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-CONVERSATION",
+          "type": "conversation",
+          "skill_ids": [
+            "M01-S001",
+            "M01-S002",
+            "M01-S003",
+            "M01-S004",
+            "M01-S005",
+            "M01-S006",
+            "M01-S007",
+            "M01-S008",
+            "M01-S009",
+            "M01-S010",
+            "M01-S011",
+            "M01-S012",
+            "M01-S013",
+            "M01-S014",
+            "M01-S015",
+            "M01-S016",
+            "M01-S017",
+            "M01-S018"
+          ],
+          "mastery_domain": "conversation",
+          "required_for_mastery": true,
+          "modes": [
+            "solo",
+            "remote_instructor"
+          ],
+          "turns": [
+            {
+              "speaker": "partner",
+              "learning_text": "Good morning.",
+              "native_text": "អរុណសួស្តី។",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D001.mp3"
+            },
+            {
+              "speaker": "learner",
+              "learning_text": "Good morning.",
+              "native_text": "អរុណសួស្តី។",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D002.mp3"
+            },
+            {
+              "speaker": "partner",
+              "learning_text": "Did you sleep well?",
+              "native_text": "តើយប់មិញអ្នកគេងលក់ស្រួលទេ?",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D003.mp3"
+            },
+            {
+              "speaker": "learner",
+              "learning_text": "Yes, I slept well.",
+              "native_text": "បាទ/ចាស ខ្ញុំគេងលក់ស្រួល។",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D004.mp3"
+            },
+            {
+              "speaker": "partner",
+              "learning_text": "Are you getting ready?",
+              "native_text": "តើអ្នកកំពុងរៀបចំខ្លួនមែនទេ?",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D005.mp3"
+            },
+            {
+              "speaker": "learner",
+              "learning_text": "Yes. Give me a minute, please.",
+              "native_text": "បាទ/ចាស។ សូមឱ្យខ្ញុំមួយនាទី។",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D006.mp3"
+            },
+            {
+              "speaker": "partner",
+              "learning_text": "Are you ready?",
+              "native_text": "តើអ្នករួចរាល់ហើយឬនៅ?",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D007.mp3"
+            },
+            {
+              "speaker": "learner",
+              "learning_text": "Yes, I'm ready. Let's go.",
+              "native_text": "បាទ/ចាស ខ្ញុំរួចរាល់ហើយ។ តោះ យើងទៅ។",
+              "audio": "courses/english-for-khmer/audio/M01/M01-D008.mp3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fluencycards.org/schema/course-1.0.0.json",
+  "title": "FluencyCards Course Package",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "course_id",
+    "version",
+    "title",
+    "native_language",
+    "learning_language",
+    "lessons"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "course_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "title": {
+      "$ref": "#/$defs/localizedText"
+    },
+    "description": {
+      "$ref": "#/$defs/localizedText"
+    },
+    "native_language": {
+      "type": "string"
+    },
+    "learning_language": {
+      "type": "string"
+    },
+    "minimum_player_version": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "review_metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "mastery_policy": {
+      "$ref": "#/$defs/masteryPolicy"
+    },
+    "audit_policy": {
+      "$ref": "#/$defs/auditPolicy"
+    },
+    "lessons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/lesson"
+      }
+    }
+  },
+  "$defs": {
+    "localizedText": {
+      "type": "object",
+      "required": [
+        "learning",
+        "native"
+      ],
+      "properties": {
+        "learning": {
+          "type": "string"
+        },
+        "native": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "masteryPolicy": {
+      "type": "object",
+      "required": [
+        "required_domains",
+        "go_thresholds"
+      ],
+      "properties": {
+        "required_domains": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "comprehension",
+              "recall",
+              "conversation",
+              "pronunciation"
+            ]
+          }
+        },
+        "go_thresholds": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "max_supported_attempts": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "auditPolicy": {
+      "type": "object",
+      "properties": {
+        "every_n_lessons": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sample_size": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "retention_intervals_days": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "lesson": {
+      "type": "object",
+      "required": [
+        "id",
+        "module_number",
+        "lesson_number",
+        "title",
+        "skills",
+        "activities",
+        "assessment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "module_number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "lesson_number": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "title": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "objective": {
+          "$ref": "#/$defs/localizedText"
+        },
+        "skills": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "learning_text",
+              "native_text"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/activity"
+          }
+        },
+        "assessment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/activity"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "activity": {
+      "type": "object",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "introduce",
+            "listen_choose",
+            "prompt_speak",
+            "multiple_choice",
+            "conversation",
+            "lesson_complete"
+          ]
+        },
+        "skill_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mastery_domain": {
+          "enum": [
+            "instruction",
+            "comprehension",
+            "recall",
+            "conversation",
+            "pronunciation"
+          ]
+        },
+        "required_for_mastery": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

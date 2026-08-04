@@ -1,0 +1,1 @@
+The hosted admin must validate Schema 1.0 before importing. The R2 publishing revision must upload immutable course JSON to R2 and store only metadata and the R2 object key in D1. AI review creates suggestions; it never silently rewrites a published course.

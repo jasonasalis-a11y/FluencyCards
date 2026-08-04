@@ -24,7 +24,7 @@ export default {
       requireAdmin(request,env);
 
       if(url.pathname==="/api/health"){
-        return json({ok:true,service:"fluencycards-admin-api",version:"0.9.2"});
+        return json({ok:true,service:"fluencycards-admin-api",version:"0.9.3"});
       }
 
       if(url.pathname==="/api/admin/summary" && request.method==="GET"){

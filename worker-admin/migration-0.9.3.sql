@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS learners(learner_id TEXT PRIMARY KEY,installation_id TEXT,display_name TEXT,created_at TEXT NOT NULL,updated_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS instructors(instructor_id TEXT PRIMARY KEY,email TEXT,display_name TEXT,created_at TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS instructor_links(link_id TEXT PRIMARY KEY,learner_id TEXT NOT NULL,instructor_id TEXT NOT NULL,consent_status TEXT NOT NULL DEFAULT 'pending',created_at TEXT NOT NULL,revoked_at TEXT,UNIQUE(learner_id,instructor_id));
+CREATE TABLE IF NOT EXISTS lesson_mastery(learner_id TEXT NOT NULL,course_id TEXT NOT NULL,course_version TEXT NOT NULL,lesson_id TEXT NOT NULL,status TEXT NOT NULL,initial_mastery_at TEXT,retention_status TEXT NOT NULL DEFAULT 'not_verified',updated_at TEXT NOT NULL,PRIMARY KEY(learner_id,course_id,course_version,lesson_id));
+CREATE TABLE IF NOT EXISTS skill_mastery(learner_id TEXT NOT NULL,course_id TEXT NOT NULL,course_version TEXT NOT NULL,lesson_id TEXT NOT NULL,skill_id TEXT NOT NULL,current_go INTEGER NOT NULL DEFAULT 0,retention_go INTEGER,attempts INTEGER NOT NULL DEFAULT 0,last_result_json TEXT,last_audited_at TEXT,updated_at TEXT NOT NULL,PRIMARY KEY(learner_id,course_id,course_version,skill_id));
+CREATE TABLE IF NOT EXISTS retraining_assignments(retraining_id TEXT PRIMARY KEY,learner_id TEXT NOT NULL,course_id TEXT NOT NULL,course_version TEXT NOT NULL,lesson_id TEXT NOT NULL,skill_id TEXT NOT NULL,generated_by TEXT NOT NULL DEFAULT 'app',reason TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'assigned',created_at TEXT NOT NULL,completed_at TEXT);
+CREATE TABLE IF NOT EXISTS retention_audits(audit_id TEXT PRIMARY KEY,learner_id TEXT NOT NULL,course_id TEXT NOT NULL,course_version TEXT NOT NULL,trigger_lesson_count INTEGER,status TEXT NOT NULL DEFAULT 'active',result_json TEXT,created_at TEXT NOT NULL,completed_at TEXT);
+CREATE INDEX IF NOT EXISTS idx_mastery_learner ON lesson_mastery(learner_id);
+CREATE INDEX IF NOT EXISTS idx_skill_learner ON skill_mastery(learner_id);
+CREATE INDEX IF NOT EXISTS idx_retraining_learner ON retraining_assignments(learner_id,status);
+CREATE INDEX IF NOT EXISTS idx_links_instructor ON instructor_links(instructor_id,consent_status);

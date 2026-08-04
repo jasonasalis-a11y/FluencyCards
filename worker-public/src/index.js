@@ -22,7 +22,7 @@ export default {
 
     try{
       if(url.pathname==="/api/health"){
-        return json({ok:true,service:"fluencycards-public-api",version:"0.9.2"});
+        return json({ok:true,service:"fluencycards-public-api",version:"0.9.3"});
       }
 
       if(url.pathname==="/api/catalog" && request.method==="GET"){
