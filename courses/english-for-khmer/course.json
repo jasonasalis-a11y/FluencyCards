@@ -1,0 +1,12 @@
+{
+  "course_id": "english-for-khmer",
+  "version": "0.9.1",
+  "title": {
+    "en": "English for Khmer Speakers",
+    "kh": "ភាសាអង់គ្លេសសម្រាប់អ្នកនិយាយភាសាខ្មែរ"
+  },
+  "source_language": "km",
+  "target_language": "en-US",
+  "license": "CC-BY-NC-SA-4.0",
+  "author": "Jason Salis"
+}

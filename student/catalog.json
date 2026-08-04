@@ -1,0 +1,15 @@
+{
+  "platform": "FluencyCards",
+  "version": "0.7.2",
+  "courses": [
+    {
+      "id": "english-for-khmer",
+      "title": {
+        "en": "English for Khmer Speakers",
+        "kh": "ភាសាអង់គ្លេសសម្រាប់អ្នកនិយាយភាសាខ្មែរ"
+      },
+      "catalog": "courses/english-for-khmer/catalog.json",
+      "version": "0.7.2"
+    }
+  ]
+}

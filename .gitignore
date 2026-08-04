@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+admin.local.json
+.env
+.env.*
+.dev.vars
+.wrangler/
+node_modules/
+deploy/
+*.zip
+.DS_Store
