@@ -8,7 +8,7 @@ export default {async fetch(request,env){
   if(request.method==='OPTIONS')return new Response(null,{headers:CORS});
   try{
     requireAdmin(request,env); requireBindings(env);
-    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-admin',version:'0.9.6.2',storage:'r2'});
+    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-admin',version:'0.9.3',storage:'r2'});
     if(url.pathname==='/api/admin/diagnostics')return await diagnostics(env);
     if(url.pathname==='/api/admin/summary')return await summary(env);
     if(url.pathname==='/api/admin/course/validate'&&request.method==='POST')return await validateEndpoint(request);
@@ -17,6 +17,9 @@ export default {async fetch(request,env){
     if(url.pathname==='/api/admin/course/get')return await getCourse(url,env);
     if(url.pathname==='/api/admin/review'&&request.method==='POST')return await reviewCourse(request,env);
     if(url.pathname==='/api/admin/provider/test'&&request.method==='POST')return await testProvider(request,env);
+    if(url.pathname==='/api/admin/image/manifest')return await imageManifest(url,env);
+    if(url.pathname==='/api/admin/image/upload'&&request.method==='POST')return await uploadImages(request,env);
+    if(url.pathname==='/api/admin/image/status')return await imageStatus(url,env);
     if(url.pathname==='/api/admin/audio/manifest')return await audioManifest(url,env);
     if(url.pathname==='/api/admin/audio/upload'&&request.method==='POST')return await uploadAudio(request,env);
     if(url.pathname==='/api/admin/audio/status')return await audioStatus(url,env);
@@ -95,7 +98,7 @@ export function collectAudioRefs(course){
 }
 async function getVersion(env,id){return env.DB.prepare('SELECT version_id,course_id,version_label,status,r2_object_key FROM course_versions WHERE version_id=?').bind(id).first()}
 async function readCourse(env,row){if(!row?.r2_object_key)throw new Error('Course version has no R2 object key.');const obj=await env.ASSETS.get(row.r2_object_key);if(!obj)throw new Error(`R2 object not found: ${row.r2_object_key}`);return JSON.parse(await obj.text())}
-async function diagnostics(env){return json({version:'0.9.6.2',bindings:{DB:!!env.DB,ASSETS:!!env.ASSETS},providers:{google:secretInfo(env.GOOGLE_API_KEY||env.GEMINI_API_KEY),openai:secretInfo(env.OPENAI_API_KEY),openrouter:secretInfo(env.OPENROUTER_API_KEY)},secrets_expected:['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']})}
+async function diagnostics(env){return json({version:'0.9.3',bindings:{DB:!!env.DB,ASSETS:!!env.ASSETS},providers:{google:secretInfo(env.GOOGLE_API_KEY||env.GEMINI_API_KEY),openai:secretInfo(env.OPENAI_API_KEY),openrouter:secretInfo(env.OPENROUTER_API_KEY)},secrets_expected:['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']})}
 async function summary(env){const [a,b,c,d]=await Promise.all([env.DB.prepare('SELECT COUNT(*) n FROM courses').first(),env.DB.prepare('SELECT COUNT(*) n FROM course_versions').first(),env.DB.prepare('SELECT COUNT(DISTINCT installation_id) n FROM analytics_events').first(),env.DB.prepare("SELECT COUNT(*) n FROM analytics_events WHERE created_at>=datetime('now','-30 days')").first()]);return json({courses:a.n,course_versions:b.n,installations:c.n,events_30d:d.n})}
 async function validateEndpoint(request){const {course}=await request.json();return json(validateCourse(course))}
 async function importCourse(request,env){
@@ -188,13 +191,26 @@ async function uploadAudio(request,env){
   }
   return json({ok:results.some(x=>x.ok),results});
 }
+
+export function collectImageRefs(course){
+  const out=new Map();
+  const add=(ref,itemId)=>{if(!ref)return;const x=typeof ref==='string'?{r2_key:ref}:ref;const key=String(x.r2_key||x.path||'').replace(/^\/+/, '');if(!key)return;if(!out.has(key))out.set(key,{path:key,image_id:x.image_id||'',concept_id:x.concept_id||'',file_name:x.file_name||key.split('/').pop(),item_id:itemId||'',alt:x.alt||''})};
+  for(const lesson of course.lessons||[]){for(const skill of lesson.skills||[])add(skill.image,skill.id);for(const card of lesson.cards||[])add(card.image||card.image_ref,card.id);}
+  for(const x of course?.assets?.images||[])add(x,x.image_id);
+  return [...out.values()];
+}
+async function imageManifest(url,env){const m=await manifestForVersion(env,url.searchParams.get('version_id'));return json({version_id:m.row.version_id,course_id:m.row.course_id,items:collectImageRefs(m.course)})}
+async function imageStatus(url,env){const m=await manifestForVersion(env,url.searchParams.get('version_id')),refs=collectImageRefs(m.course),items=[];for(const item of refs){const obj=await env.ASSETS.head(item.path);items.push({...item,present:!!obj,size:obj?.size||0})}return json({version_id:m.row.version_id,total:items.length,present:items.filter(x=>x.present).length,missing:items.filter(x=>!x.present).length,items})}
+async function uploadImages(request,env){const form=await request.formData(),versionId=form.get('version_id'),m=await manifestForVersion(env,versionId),refs=collectImageRefs(m.course),allowed=new Map(refs.map(x=>[x.path,x])),files=form.getAll('files');if(!files.length)return json({error:'No files uploaded'},400);const results=[];for(const file of files){if(!(file instanceof File))continue;let path=String(form.get(`path:${file.name}`)||file.name).replace(/^\/+/, '');if(!allowed.has(path)){const matches=refs.filter(x=>x.file_name===file.name||x.path.endsWith('/'+file.name));if(matches.length===1)path=matches[0].path}if(!allowed.has(path)){results.push({file:file.name,ok:false,error:'Filename/path is not referenced by the course'});continue}const ref=allowed.get(path),bytes=await file.arrayBuffer(),hash=await crypto.subtle.digest('SHA-256',bytes),sha=[...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,'0')).join('');await env.ASSETS.put(path,bytes,{httpMetadata:{contentType:file.type||'image/webp'},customMetadata:{image_id:ref.image_id,concept_id:ref.concept_id,version_id:versionId,sha256:sha}});await env.DB.prepare(`INSERT OR REPLACE INTO image_assets(image_id,concept_id,file_name,object_key,sha256,size_bytes,width,height,format,reuse_scope,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(ref.image_id||crypto.randomUUID(),ref.concept_id||'',ref.file_name,path,sha,bytes.byteLength,512,512,(file.type||'image/webp').split('/').pop(),'global',now()).run();await env.DB.prepare(`INSERT OR REPLACE INTO course_image_links(version_id,item_id,image_id,created_at) VALUES(?,?,?,?)`).bind(versionId,ref.item_id||'',ref.image_id||'',now()).run();results.push({file:file.name,path,ok:true,size:bytes.byteLength})}return json({ok:results.some(x=>x.ok),results})}
+
 async function readinessForVersion(env,versionId){
-  const m=await manifestForVersion(env,versionId),validation=validateCourse(m.course),errors=[...validation.errors],warnings=[...validation.warnings],missing=[];
+  const m=await manifestForVersion(env,versionId),validation=validateCourse(m.course),errors=[...validation.errors],warnings=[...validation.warnings],missing=[],missingImages=[];
   for(const item of m.items)if(!(await env.ASSETS.head(item.path)))missing.push(item.path);
   if(missing.length)errors.push(`${missing.length} required audio file(s) are missing.`);
+  const imageRefs=collectImageRefs(m.course);for(const item of imageRefs)if(!(await env.ASSETS.head(item.path)))missingImages.push(item.path);if(missingImages.length)errors.push(`${missingImages.length} required image file(s) are missing.`);
   const review=await env.DB.prepare(`SELECT COUNT(*) n,MAX(created_at) latest FROM review_runs WHERE version_id=? AND status='complete'`).bind(versionId).first();
   if(!review?.n)warnings.push('No completed AI review is recorded. AI review is recommended but not required.');
-  return {version_id:versionId,valid:errors.length===0,can_publish:errors.length===0,errors,warnings,missing_audio:missing,audio_total:m.items.length,audio_present:m.items.length-missing.length,completed_reviews:Number(review?.n||0),latest_review_at:review?.latest||null,course:m.course,row:m.row};
+  return {version_id:versionId,valid:errors.length===0,can_publish:errors.length===0,errors,warnings,missing_audio:missing,missing_images:missingImages,image_total:imageRefs.length,image_present:imageRefs.length-missingImages.length,audio_total:m.items.length,audio_present:m.items.length-missing.length,completed_reviews:Number(review?.n||0),latest_review_at:review?.latest||null,course:m.course,row:m.row};
 }
 async function courseReadiness(url,env){const r=await readinessForVersion(env,url.searchParams.get('version_id'));const {course,row,...publicResult}=r;return json(publicResult)}
 async function publishCourse(request,env){
@@ -203,7 +219,7 @@ async function publishCourse(request,env){
   const items=collectAudioRefs(r.course),key=`catalog/${safe(r.row.course_id)}/${safe(r.row.version_label||r.row.version_id)}/course.json`,body=JSON.stringify(r.course),checksum=await sha256(body),publishedAt=now();await env.ASSETS.put(key,body,{httpMetadata:{contentType:'application/json; charset=utf-8'},customMetadata:{course_id:r.row.course_id,version_id:r.row.version_id,status:'published'}});
   await env.DB.batch([env.DB.prepare(`UPDATE course_versions SET status='published',r2_object_key=?,content_sha256=?,byte_size=?,published_at=? WHERE version_id=?`).bind(key,checksum,enc.encode(body).byteLength,publishedAt,r.row.version_id),env.DB.prepare(`UPDATE courses SET current_version_id=?,published=1,updated_at=? WHERE course_id=?`).bind(r.row.version_id,publishedAt,r.row.course_id)]);
   if(r.row.r2_object_key!==key&&r.row.r2_object_key?.startsWith('drafts/'))await env.ASSETS.delete(r.row.r2_object_key);
-  return json({ok:true,version_id:r.row.version_id,r2_object_key:key,published_at:publishedAt,audio_count:items.length,published_with_warnings:r.warnings});
+  return json({ok:true,version_id:r.row.version_id,r2_object_key:key,published_at:publishedAt,audio_count:items.length,image_count:collectImageRefs(r.course).length,published_with_warnings:r.warnings});
 }
 
 async function analytics(env){const [a,b,c,d,top]=await Promise.all([env.DB.prepare("SELECT COUNT(DISTINCT installation_id) n FROM analytics_events WHERE created_at>=datetime('now','-7 days')").first(),env.DB.prepare("SELECT COUNT(*) n FROM analytics_events WHERE event_type='lesson_opened' AND created_at>=datetime('now','-7 days')").first(),env.DB.prepare("SELECT COUNT(*) n FROM analytics_events WHERE event_type='audio_played' AND created_at>=datetime('now','-7 days')").first(),env.DB.prepare("SELECT COUNT(*) n FROM analytics_events WHERE event_type='offline_download_completed' AND created_at>=datetime('now','-7 days')").first(),env.DB.prepare(`SELECT lesson_id,COUNT(*) opens FROM analytics_events WHERE event_type='lesson_opened' GROUP BY lesson_id ORDER BY opens DESC LIMIT 20`).all()]);return json({active_installations_7d:a.n,lesson_opens_7d:b.n,audio_plays_7d:c.n,offline_downloads_7d:d.n,top_lessons:top.results})}
