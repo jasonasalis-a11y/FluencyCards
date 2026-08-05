@@ -8,21 +8,21 @@ export default {async fetch(request,env){
   if(request.method==='OPTIONS')return new Response(null,{headers:CORS});
   try{
     requireAdmin(request,env); requireBindings(env);
-    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-admin',version:'0.9.6-beta',storage:'r2'});
-    if(url.pathname==='/api/admin/diagnostics')return diagnostics(env);
-    if(url.pathname==='/api/admin/summary')return summary(env);
-    if(url.pathname==='/api/admin/course/validate'&&request.method==='POST')return validateEndpoint(request);
-    if(url.pathname==='/api/admin/course/import'&&request.method==='POST')return importCourse(request,env);
-    if(url.pathname==='/api/admin/course/versions')return listVersions(env);
-    if(url.pathname==='/api/admin/course/get')return getCourse(url,env);
-    if(url.pathname==='/api/admin/review'&&request.method==='POST')return reviewCourse(request,env);
-    if(url.pathname==='/api/admin/provider/test'&&request.method==='POST')return testProvider(request,env);
-    if(url.pathname==='/api/admin/audio/manifest')return audioManifest(url,env);
-    if(url.pathname==='/api/admin/audio/upload'&&request.method==='POST')return uploadAudio(request,env);
-    if(url.pathname==='/api/admin/audio/status')return audioStatus(url,env);
-    if(url.pathname==='/api/admin/course/readiness')return courseReadiness(url,env);
-    if(url.pathname==='/api/admin/course/publish'&&request.method==='POST')return publishCourse(request,env);
-    if(url.pathname==='/api/admin/analytics/overview')return analytics(env);
+    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-admin',version:'0.9.6.2',storage:'r2'});
+    if(url.pathname==='/api/admin/diagnostics')return await diagnostics(env);
+    if(url.pathname==='/api/admin/summary')return await summary(env);
+    if(url.pathname==='/api/admin/course/validate'&&request.method==='POST')return await validateEndpoint(request);
+    if(url.pathname==='/api/admin/course/import'&&request.method==='POST')return await importCourse(request,env);
+    if(url.pathname==='/api/admin/course/versions')return await listVersions(env);
+    if(url.pathname==='/api/admin/course/get')return await getCourse(url,env);
+    if(url.pathname==='/api/admin/review'&&request.method==='POST')return await reviewCourse(request,env);
+    if(url.pathname==='/api/admin/provider/test'&&request.method==='POST')return await testProvider(request,env);
+    if(url.pathname==='/api/admin/audio/manifest')return await audioManifest(url,env);
+    if(url.pathname==='/api/admin/audio/upload'&&request.method==='POST')return await uploadAudio(request,env);
+    if(url.pathname==='/api/admin/audio/status')return await audioStatus(url,env);
+    if(url.pathname==='/api/admin/course/readiness')return await courseReadiness(url,env);
+    if(url.pathname==='/api/admin/course/publish'&&request.method==='POST')return await publishCourse(request,env);
+    if(url.pathname==='/api/admin/analytics/overview')return await analytics(env);
     return json({error:'Not found'},404);
   }catch(error){
     const status=error.status|| (error.message==='Admin access denied.'?403:500);
@@ -54,13 +54,27 @@ export function validateCourse(c){
   if(!c.course_id)errors.push('course_id is required.');
   if(!titleLearning(c))errors.push('title.learning (or title.en) is required.');
   if(!Array.isArray(c.lessons)||!c.lessons.length)errors.push('lessons must be a non-empty array.');
-  const lessonIds=new Set(),itemIds=new Set();
+  const lessonIds=new Set();
   for(const lesson of c.lessons||[]){
-    if(!lesson.id)errors.push('Each lesson needs an id.');
-    if(lessonIds.has(lesson.id))errors.push(`Duplicate lesson id: ${lesson.id}`); lessonIds.add(lesson.id);
-    const collections=[lesson.cards,lesson.skills,lesson.activities,lesson.assessment].filter(Array.isArray);
-    if(!collections.some(x=>x.length))errors.push(`${lesson.id||'lesson'}: needs cards, skills, activities, or assessment items.`);
-    for(const collection of collections)for(const item of collection){if(item?.id){if(itemIds.has(item.id))errors.push(`Duplicate item id: ${item.id}`);itemIds.add(item.id)}}
+    const lessonId=lesson?.id||'lesson';
+    if(!lesson?.id)errors.push('Each lesson needs an id.');
+    else if(lessonIds.has(lesson.id))errors.push(`Duplicate lesson id: ${lesson.id}`);
+    else lessonIds.add(lesson.id);
+
+    const collections={skills:lesson?.skills,cards:lesson?.cards,activities:lesson?.activities,assessment:lesson?.assessment};
+    if(!Object.values(collections).some(x=>Array.isArray(x)&&x.length))errors.push(`${lessonId}: needs cards, skills, activities, or assessment items.`);
+
+    // IDs identify definitions within their own collection. A skill may be referenced by
+    // activities or assessments without becoming a duplicate skill definition.
+    for(const [name,collection] of Object.entries(collections)){
+      if(!Array.isArray(collection))continue;
+      const ids=new Set();
+      for(const item of collection){
+        if(!item?.id)continue;
+        if(ids.has(item.id))errors.push(`Duplicate ${name.slice(0,-1)} id in ${lessonId}: ${item.id}`);
+        else ids.add(item.id);
+      }
+    }
   }
   const audio=collectAudioRefs(c);
   if(!audio.length)warnings.push('No audio references were found.');
@@ -81,7 +95,7 @@ export function collectAudioRefs(course){
 }
 async function getVersion(env,id){return env.DB.prepare('SELECT version_id,course_id,version_label,status,r2_object_key FROM course_versions WHERE version_id=?').bind(id).first()}
 async function readCourse(env,row){if(!row?.r2_object_key)throw new Error('Course version has no R2 object key.');const obj=await env.ASSETS.get(row.r2_object_key);if(!obj)throw new Error(`R2 object not found: ${row.r2_object_key}`);return JSON.parse(await obj.text())}
-async function diagnostics(env){return json({version:'0.9.6-beta',bindings:{DB:!!env.DB,ASSETS:!!env.ASSETS},providers:{google:secretInfo(env.GOOGLE_API_KEY||env.GEMINI_API_KEY),openai:secretInfo(env.OPENAI_API_KEY),openrouter:secretInfo(env.OPENROUTER_API_KEY)},secrets_expected:['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']})}
+async function diagnostics(env){return json({version:'0.9.6.2',bindings:{DB:!!env.DB,ASSETS:!!env.ASSETS},providers:{google:secretInfo(env.GOOGLE_API_KEY||env.GEMINI_API_KEY),openai:secretInfo(env.OPENAI_API_KEY),openrouter:secretInfo(env.OPENROUTER_API_KEY)},secrets_expected:['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']})}
 async function summary(env){const [a,b,c,d]=await Promise.all([env.DB.prepare('SELECT COUNT(*) n FROM courses').first(),env.DB.prepare('SELECT COUNT(*) n FROM course_versions').first(),env.DB.prepare('SELECT COUNT(DISTINCT installation_id) n FROM analytics_events').first(),env.DB.prepare("SELECT COUNT(*) n FROM analytics_events WHERE created_at>=datetime('now','-30 days')").first()]);return json({courses:a.n,course_versions:b.n,installations:c.n,events_30d:d.n})}
 async function validateEndpoint(request){const {course}=await request.json();return json(validateCourse(course))}
 async function importCourse(request,env){
@@ -100,7 +114,7 @@ async function getCourse(url,env){const id=url.searchParams.get('version_id');co
 export function providerRequest(provider,model,prompt,env,origin='https://fluency-engine.invalid'){
   if(provider==='google'){
     const key=cleanSecret(env.GOOGLE_API_KEY||env.GEMINI_API_KEY);if(!key)throw new Error('Google key missing: add GOOGLE_API_KEY to the fluency-engine Worker.');
-    const m=normalizeGoogleModel(model);return {endpoint:`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`,headers:{'Content-Type':'application/json','x-goog-api-key':key},payload:{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.2,responseMimeType:'application/json',responseSchema:{type:'OBJECT',properties:{summary:{type:'STRING'},suggestions:{type:'ARRAY',items:{type:'STRING'}},warnings:{type:'ARRAY',items:{type:'STRING'}}},required:['summary','suggestions','warnings']}}},model:m};
+    const m=normalizeGoogleModel(model);return {endpoint:`https://generativelanguage.googleapis.com/v1/models/${encodeURIComponent(m)}:generateContent`,headers:{'Content-Type':'application/json','x-goog-api-key':key},payload:{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.2,responseMimeType:'application/json',responseSchema:{type:'OBJECT',properties:{summary:{type:'STRING'},suggestions:{type:'ARRAY',items:{type:'STRING'}},warnings:{type:'ARRAY',items:{type:'STRING'}}},required:['summary','suggestions','warnings']}}},model:m};
   }
   if(provider==='openai'){
     const key=cleanSecret(env.OPENAI_API_KEY);if(!key)throw new Error('OpenAI key missing: add OPENAI_API_KEY to the fluency-engine Worker.');
@@ -119,28 +133,48 @@ function extractProviderText(provider,data){
   return data?.choices?.[0]?.message?.content||'';
 }
 function parseJsonText(text){const cleaned=String(text||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'');try{return JSON.parse(cleaned)}catch{throw new Error(`Provider returned non-JSON output: ${cleaned.slice(0,500)}`)}}
-async function callProvider(env,provider,model,focus,course,origin){
-  const prompt=`${focus}
-
-Course JSON:
-${JSON.stringify(course)}
-
-Return one JSON object with keys summary, suggestions, warnings. Never apply changes automatically.`;
-  const req=providerRequest(provider,model,prompt,env,origin);let response,raw,data;
-  for(let attempt=0;attempt<2;attempt++){
-    try{response=await fetchWithTimeout(req.endpoint,{method:'POST',headers:req.headers,body:JSON.stringify(req.payload)},60000)}catch(e){if(attempt===0)continue;const err=new Error(`Provider ${provider} request failed before a response: ${e.message}`);err.status=502;err.details={provider,model:req.model,endpoint:new URL(req.endpoint).origin};throw err}
-    raw=await response.text();try{data=raw?JSON.parse(raw):{}}catch{data={raw}}
-    if(response.ok)break;
-    if(attempt===0&&(response.status===429||response.status===503)){const wait=Math.min(5000,Math.max(500,Number(response.headers.get('Retry-After')||1)*1000));await new Promise(r=>setTimeout(r,wait));continue}
-    const keyValue=provider==='google'?(env.GOOGLE_API_KEY||env.GEMINI_API_KEY):provider==='openai'?env.OPENAI_API_KEY:env.OPENROUTER_API_KEY;
-    const details={provider,model:req.model,http_status:response.status,endpoint:new URL(req.endpoint).origin,request_id:response.headers.get('x-request-id')||response.headers.get('x-goog-request-id')||null,key:secretInfo(keyValue),provider_error:data};const err=new Error(`${provider} returned HTTP ${response.status}: ${data?.error?.message||data?.message||raw.slice(0,400)}`);err.status=502;err.details=details;throw err
+async function callProvider(env,provider,model,focus,course,origin,{structured=true}={}){
+  const prompt=`${focus}\n\nCourse JSON:\n${JSON.stringify(course)}\n\n${structured?'Return one JSON object with keys summary, suggestions, warnings. Never apply changes automatically.':'Reply with a short confirmation that the provider connection works.'}`;
+  const req=providerRequest(provider,model,prompt,env,origin);
+  if(!structured){
+    if(provider==='google')delete req.payload.generationConfig;
+    if(provider==='openai')delete req.payload.text;
+    if(provider==='openrouter')delete req.payload.response_format;
   }
-  const text=extractProviderText(provider,data);if(!text){const err=new Error(`${provider} returned no review text.`);err.status=502;err.details={provider,model:req.model,response:data};throw err}
-  return parseJsonText(text);
+  let response,raw,data;
+  for(let attempt=0;attempt<2;attempt++){
+    try{response=await fetchWithTimeout(req.endpoint,{method:'POST',headers:req.headers,body:JSON.stringify(req.payload)},60000)}
+    catch(e){
+      if(attempt===0)continue;
+      const err=new Error(`Provider ${provider} request failed before a response: ${e?.message||String(e)}`);
+      err.status=502;err.details={stage:'fetch',provider,model:req.model,endpoint:req.endpoint};throw err;
+    }
+    raw=await response.text();
+    try{data=raw?JSON.parse(raw):{}}catch{data={raw:raw.slice(0,4000)}}
+    if(response.ok)break;
+    if(attempt===0&&(response.status===429||response.status===503)){
+      const wait=Math.min(5000,Math.max(500,Number(response.headers.get('Retry-After')||1)*1000));await new Promise(r=>setTimeout(r,wait));continue;
+    }
+    const keyValue=provider==='google'?(env.GOOGLE_API_KEY||env.GEMINI_API_KEY):provider==='openai'?env.OPENAI_API_KEY:env.OPENROUTER_API_KEY;
+    const err=new Error(`${provider} returned HTTP ${response.status}: ${data?.error?.message||data?.message||raw.slice(0,400)}`);
+    err.status=502;err.details={stage:'provider_response',provider,model:req.model,http_status:response.status,endpoint:req.endpoint,request_id:response.headers.get('x-request-id')||response.headers.get('x-goog-request-id')||null,key:secretInfo(keyValue),provider_error:data};throw err;
+  }
+  const text=extractProviderText(provider,data);
+  if(!text){const err=new Error(`${provider} returned no text.`);err.status=502;err.details={stage:'response_parse',provider,model:req.model,response:data};throw err}
+  return structured?parseJsonText(text):{message:text.slice(0,1000)};
 }
-async function fetchWithTimeout(url,options,ms){const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);try{return await fetch(url,{...options,signal:c.signal})}finally{clearTimeout(t)}}
-async function reviewCourse(request,env){const body=await request.json(),row=await getVersion(env,body.version_id);if(!row)return json({error:'Unknown course version'},404);const course=await readCourse(env,row);const result=await callProvider(env,body.provider,body.model,body.focus||'Review this course.',course,new URL(request.url).origin);const reviewId=crypto.randomUUID();await env.DB.prepare(`INSERT INTO review_runs(review_id,version_id,provider,model,focus,result_json,status,created_at) VALUES(?,?,?,?,?,?,?,?)`).bind(reviewId,row.version_id,body.provider,body.model,body.focus||'',JSON.stringify(result),'complete',now()).run();return json({review_id:reviewId,result})}
-async function testProvider(request,env){const body=await request.json();const sample={course_id:'provider-test',title:{learning:'Provider test'},learning_language:'en-US',lessons:[{id:'T1',skills:[{id:'S1',learning_text:'Hello.',native_text:'Test.'}]}]};const started=Date.now();const result=await callProvider(env,body.provider,body.model,'Return a brief test review. This is a connectivity test.',sample,new URL(request.url).origin);return json({ok:true,provider:body.provider,model:body.model,elapsed_ms:Date.now()-started,result})}
+async function fetchWithTimeout(url,options,ms){const c=new AbortController(),t=setTimeout(()=>c.abort('Provider request timed out.'),ms);try{return await fetch(url,{...options,signal:c.signal})}finally{clearTimeout(t)}}
+async function reviewCourse(request,env){
+  const body=await request.json(),row=await getVersion(env,body.version_id);if(!row)return json({error:'Unknown course version'},404);
+  const course=await readCourse(env,row),result=await callProvider(env,body.provider,body.model,body.focus||'Review this course.',course,new URL(request.url).origin,{structured:true});
+  const reviewId=crypto.randomUUID();await env.DB.prepare(`INSERT INTO review_runs(review_id,version_id,provider,model,focus,result_json,status,created_at) VALUES(?,?,?,?,?,?,?,?)`).bind(reviewId,row.version_id,body.provider,body.model,body.focus||'',JSON.stringify(result),'complete',now()).run();return json({ok:true,review_id:reviewId,result});
+}
+async function testProvider(request,env){
+  const body=await request.json(),started=Date.now();
+  const sample={course_id:'provider-test',title:{learning:'Provider test'},learning_language:'en-US',lessons:[{id:'T1',skills:[{id:'S1',learning_text:'Hello.',native_text:'Test.'}]}]};
+  const result=await callProvider(env,body.provider,body.model,'This is a provider connectivity test.',sample,new URL(request.url).origin,{structured:false});
+  return json({ok:true,provider:body.provider,model:body.model,elapsed_ms:Date.now()-started,result});
+}
 async function manifestForVersion(env,versionId){const row=await getVersion(env,versionId);if(!row)throw Object.assign(new Error('Unknown course version'),{status:404});const course=await readCourse(env,row);return {row,course,items:collectAudioRefs(course)}}
 async function audioManifest(url,env){const m=await manifestForVersion(env,url.searchParams.get('version_id'));return json({version_id:m.row.version_id,course_id:m.row.course_id,items:m.items})}
 async function audioStatus(url,env){const m=await manifestForVersion(env,url.searchParams.get('version_id'));const items=[];for(const item of m.items){const obj=await env.ASSETS.head(item.path);items.push({...item,present:!!obj,size:obj?.size||0})}return json({version_id:m.row.version_id,total:items.length,present:items.filter(x=>x.present).length,missing:items.filter(x=>!x.present).length,items})}
