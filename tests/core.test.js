@@ -7,3 +7,7 @@ test('OpenAI request uses Responses API bearer auth',()=>{const r=providerReques
 test('OpenRouter request uses chat completions and required bearer auth',()=>{const r=providerRequest('openrouter','google/gemini-3.6-flash','prompt',{OPENROUTER_API_KEY:'or-test'},'https://example.com');assert.equal(r.endpoint,'https://openrouter.ai/api/v1/chat/completions');assert.equal(r.headers.Authorization,'Bearer or-test');assert.equal(r.headers['HTTP-Referer'],'https://example.com')});
 
 test('real English-for-Khmer course validates',async()=>{const fs=await import('node:fs/promises');const raw=await fs.readFile(new URL('../courses/english-for-khmer/course.schema-1.0.json',import.meta.url),'utf8');const real=JSON.parse(raw);const r=validateCourse(real);assert.equal(r.valid,true);assert.ok(r.audio_reference_count>=18)});
+
+test('provider secrets are trimmed and quoted keys are accepted',()=>{const r=providerRequest('google','gemini-3.6-flash','prompt',{GOOGLE_API_KEY:'  "AQ.test"  '});assert.equal(r.headers['x-goog-api-key'],'AQ.test')});
+test('OpenAI requests strict structured JSON',()=>{const r=providerRequest('openai','gpt-5-mini','prompt',{OPENAI_API_KEY:'sk-test'});assert.equal(r.payload.text.format.type,'json_schema');assert.equal(r.payload.text.format.strict,true)});
+test('OpenRouter requests JSON output',()=>{const r=providerRequest('openrouter','google/gemini-3.6-flash','prompt',{OPENROUTER_API_KEY:'or-test'});assert.equal(r.payload.response_format.type,'json_object')});

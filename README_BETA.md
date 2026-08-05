@@ -1,11 +1,11 @@
-# Fluency Engine 0.9.5 Beta
+# Fluency Engine 0.9.6 Beta
 
 ## Install/update from Termux
 
 After extracting this release, run one command:
 
 ```bash
-bash ~/storage/downloads/FluencyEngine_v0.9.5_Beta/install-beta.sh \
+bash ~/storage/downloads/FluencyEngine_v0.9.6_Beta/install-beta.sh \
   ~/storage/downloads/FluencyCards_v0.9.3/FluencyCards
 ```
 
