@@ -5,7 +5,7 @@ export default {async fetch(request,env){
   const url=new URL(request.url);if(request.method==='OPTIONS')return new Response(null,{headers:CORS});
   try{
     if(!env.DB)throw new Error('Missing D1 binding: DB');if(!env.ASSETS)throw new Error('Missing R2 binding: ASSETS');
-    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-public',version:'0.9.6.5',storage:'r2',pwa:true,course_packages:'zip',image_catalog:'shared'});
+    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-public',version:'0.9.6.6',storage:'r2',pwa:true,course_packages:'zip',image_catalog:'shared'});
     if(url.pathname==='/api/catalog'&&request.method==='GET')return catalog(env);
     if(url.pathname.match(/^\/api\/course\/[^/]+\/versions$/)&&request.method==='GET')return versions(url,env);
     if(url.pathname.match(/^\/api\/course\/[^/]+\/package\/[^/]+$/)&&request.method==='GET')return coursePackage(url,env);

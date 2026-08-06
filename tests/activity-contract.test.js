@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+const course=JSON.parse(fs.readFileSync(new URL('./fixtures/English_for_Khmer_v0.9.4_importable.json',import.meta.url),'utf8'));
+test('test lesson contains the exact published activity mix',()=>{const l=course.lessons[0];assert.equal(l.activities.filter(x=>x.type==='introduce').length,18);assert.equal(l.activities.filter(x=>x.type==='multiple_choice').length,3);assert.equal(l.assessment.filter(x=>x.type==='prompt_speak').length,18);assert.equal(l.assessment.filter(x=>x.type==='conversation').length,1);assert.equal(l.assessment.find(x=>x.type==='conversation').turns.length,8)});
