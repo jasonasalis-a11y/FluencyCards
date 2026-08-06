@@ -1,3 +1,4 @@
+const ADMIN_VERSION='0.9.3.4';
 const CORS={"Access-Control-Allow-Origin":"*","Access-Control-Allow-Headers":"Content-Type,Authorization","Access-Control-Allow-Methods":"GET,POST,PUT,OPTIONS"};
 const json=(data,status=200,extra={})=>new Response(JSON.stringify(data),{status,headers:{"Content-Type":"application/json; charset=utf-8",...CORS,...extra}});
 const now=()=>new Date().toISOString();
@@ -8,7 +9,7 @@ export default {async fetch(request,env){
   if(request.method==='OPTIONS')return new Response(null,{headers:CORS});
   try{
     requireAdmin(request,env); requireBindings(env);
-    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-admin',version:'0.9.3.3',storage:'r2'});
+    if(url.pathname==='/api/health')return json({ok:true,service:'fluency-engine-admin',version:ADMIN_VERSION,storage:'r2'});
     if(url.pathname==='/api/admin/diagnostics')return await diagnostics(env);
     if(url.pathname==='/api/admin/summary')return await summary(env);
     if(url.pathname==='/api/admin/course/validate'&&request.method==='POST')return await validateEndpoint(request);
@@ -49,6 +50,7 @@ function titleLearning(c){return c?.title?.learning||c?.title?.en||c?.title_en||
 function titleNative(c){return c?.title?.native||c?.title?.kh||c?.title_kh||''}
 function cleanSecret(value){let s=String(value||'').replace(/[\u200B-\u200D\uFEFF]/g,'').trim();if((s.startsWith('\"')&&s.endsWith('\"'))||(s.startsWith("'")&&s.endsWith("'")))s=s.slice(1,-1).trim();return s}
 function secretInfo(value){const s=cleanSecret(value);return {configured:!!s,length:s.length,prefix:s?`${s.slice(0,3)}…`:'',suffix:s?`…${s.slice(-4)}`:''}}
+function googleSecret(env){const candidates=[['GOOGLE_API_KEY',env.GOOGLE_API_KEY],['GEMINI_API_KEY',env.GEMINI_API_KEY],['GOIGLE_API_KEY',env.GOIGLE_API_KEY]];for(const [name,value] of candidates){const cleaned=cleanSecret(value);if(cleaned)return {name,value:cleaned,warning:name==='GOIGLE_API_KEY'?'Cloudflare secret is misspelled GOIGLE_API_KEY. Rename it to GOOGLE_API_KEY.':name==='GEMINI_API_KEY'?'Legacy GEMINI_API_KEY binding is in use. Rename it to GOOGLE_API_KEY.':''}}return {name:'',value:'',warning:''}}
 const REVIEW_SCHEMA={type:'object',additionalProperties:false,properties:{summary:{type:'string'},suggestions:{type:'array',items:{type:'string'}},warnings:{type:'array',items:{type:'string'}}},required:['summary','suggestions','warnings']};
 
 export function validateCourse(c){
@@ -98,7 +100,7 @@ export function collectAudioRefs(course){
 }
 async function getVersion(env,id){return env.DB.prepare('SELECT version_id,course_id,version_label,status,r2_object_key FROM course_versions WHERE version_id=?').bind(id).first()}
 async function readCourse(env,row){if(!row?.r2_object_key)throw new Error('Course version has no R2 object key.');const obj=await env.ASSETS.get(row.r2_object_key);if(!obj)throw new Error(`R2 object not found: ${row.r2_object_key}`);return JSON.parse(await obj.text())}
-async function diagnostics(env){return json({version:'0.9.3.3',bindings:{DB:!!env.DB,ASSETS:!!env.ASSETS},providers:{google:secretInfo(env.GOOGLE_API_KEY||env.GEMINI_API_KEY),openai:secretInfo(env.OPENAI_API_KEY),openrouter:secretInfo(env.OPENROUTER_API_KEY)},secrets_expected:['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']})}
+async function diagnostics(env){const g=googleSecret(env);return json({version:ADMIN_VERSION,bindings:{DB:!!env.DB,ASSETS:!!env.ASSETS},providers:{google:{...secretInfo(g.value),binding:g.name||null,warning:g.warning||null},openai:secretInfo(env.OPENAI_API_KEY),openrouter:secretInfo(env.OPENROUTER_API_KEY)},secrets_expected:['GOOGLE_API_KEY','OPENAI_API_KEY','OPENROUTER_API_KEY']})}
 async function summary(env){const [a,b,c,d]=await Promise.all([env.DB.prepare('SELECT COUNT(*) n FROM courses').first(),env.DB.prepare('SELECT COUNT(*) n FROM course_versions').first(),env.DB.prepare('SELECT COUNT(DISTINCT installation_id) n FROM analytics_events').first(),env.DB.prepare("SELECT COUNT(*) n FROM analytics_events WHERE created_at>=datetime('now','-30 days')").first()]);return json({courses:a.n,course_versions:b.n,installations:c.n,events_30d:d.n})}
 async function validateEndpoint(request){const {course}=await request.json();return json(validateCourse(course))}
 async function importCourse(request,env){
@@ -116,7 +118,7 @@ async function getCourse(url,env){const id=url.searchParams.get('version_id');co
 
 export function providerRequest(provider,model,prompt,env,origin='https://fluency-engine.invalid'){
   if(provider==='google'){
-    const key=cleanSecret(env.GOOGLE_API_KEY||env.GEMINI_API_KEY);if(!key)throw new Error('Google key missing: add GOOGLE_API_KEY to the fluency-engine Worker.');
+    const google=googleSecret(env),key=google.value;if(!key)throw new Error('Google key missing: add GOOGLE_API_KEY to the fluency-engine Worker.');
     const m=normalizeGoogleModel(model);return {endpoint:`https://generativelanguage.googleapis.com/v1/models/${encodeURIComponent(m)}:generateContent`,headers:{'Content-Type':'application/json','x-goog-api-key':key},payload:{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.2,responseMimeType:'application/json',responseSchema:{type:'OBJECT',properties:{summary:{type:'STRING'},suggestions:{type:'ARRAY',items:{type:'STRING'}},warnings:{type:'ARRAY',items:{type:'STRING'}}},required:['summary','suggestions','warnings']}}},model:m};
   }
   if(provider==='openai'){
@@ -158,7 +160,7 @@ async function callProvider(env,provider,model,focus,course,origin,{structured=t
     if(attempt===0&&(response.status===429||response.status===503)){
       const wait=Math.min(5000,Math.max(500,Number(response.headers.get('Retry-After')||1)*1000));await new Promise(r=>setTimeout(r,wait));continue;
     }
-    const keyValue=provider==='google'?(env.GOOGLE_API_KEY||env.GEMINI_API_KEY):provider==='openai'?env.OPENAI_API_KEY:env.OPENROUTER_API_KEY;
+    const keyValue=provider==='google'?googleSecret(env).value:provider==='openai'?env.OPENAI_API_KEY:env.OPENROUTER_API_KEY;
     const err=new Error(`${provider} returned HTTP ${response.status}: ${data?.error?.message||data?.message||raw.slice(0,400)}`);
     err.status=502;err.details={stage:'provider_response',provider,model:req.model,http_status:response.status,endpoint:req.endpoint,request_id:response.headers.get('x-request-id')||response.headers.get('x-goog-request-id')||null,key:secretInfo(keyValue),provider_error:data};throw err;
   }

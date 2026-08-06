@@ -4,6 +4,7 @@ const steps=[
   ['node',['tests/static-check.mjs']],
   ['node',['tests/contracts/validate-schema-contract.mjs']],
   ['node',['tests/contracts/schema-smoke.mjs']],
+  ['node',['tests/contracts/validate-version-contract.mjs']],
   ['node',['--check','worker-admin/src/index.js']]
 ];
 for(const [cmd,args] of steps){

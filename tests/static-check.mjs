@@ -13,7 +13,10 @@ assert.match(admin,/Upload image ZIP/);assert.match(admin,/DecompressionStream/)
 assert.match(wrangler,/bucket_name\s*=\s*"fluency-engine"/);
 assert.match(worker,/return await reviewCourse/,'review route must be awaited so errors are caught');
 assert.match(worker,/return await testProvider/,'provider test route must be awaited so errors are caught');
-assert.match(worker,/version:'0\.9\.3\.3'/);
+assert.match(worker,/const ADMIN_VERSION='0\.9\.3\.4'/);
+assert.match(admin,/id="adminVersion"/);
+assert.ok(!admin.includes('Admin Stabilization 0.9.3.3'),'stale hard-coded admin version');
+assert.ok(!admin.includes('Admin Stabilization 0.9.3.2'),'stale hard-coded admin version');
 const match=admin.match(/<script>([\s\S]*)<\/script>/);assert(match,'admin inline script missing');
 const tmp=path.join(os.tmpdir(),`fluency-admin-${process.pid}.js`);fs.writeFileSync(tmp,match[1]);const checked=spawnSync(process.execPath,['--check',tmp],{encoding:'utf8'});fs.unlinkSync(tmp);assert.equal(checked.status,0,checked.stderr);
 console.log('Admin stabilization static checks passed.');
@@ -24,3 +27,5 @@ assert.ok(!worker.includes('image_assets'),'obsolete image_assets table referenc
 assert.ok(!worker.includes('course_image_links'),'obsolete course_image_links table reference');
 assert.match(worker,/INSERT OR REPLACE INTO images\(/);
 assert.match(worker,/INSERT OR REPLACE INTO course_card_images\(/);
+
+assert.match(worker,/GOIGLE_API_KEY/,'diagnostics should identify the observed misspelled binding');
