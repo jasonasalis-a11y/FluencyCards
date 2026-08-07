@@ -1,0 +1,3 @@
+component=test-fixtures
+version=n/a
+summary=Add missing tests/fixtures/English_for_Khmer_v0.9.4_importable.json (unblocks activity-contract.test.js and player-routing.test.js — full suite now green, 11/11)
