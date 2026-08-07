@@ -1,3 +1,3 @@
 component=pwa
-version=0.9.6.8
-summary=PWA 0.9.6.8: smart download button state, skip redundant re-downloads, real backup-file save + restore, storage.persist()
+version=0.9.6.9
+summary=PWA 0.9.6.9: built-in offline-safe error overlay, fix stale service-worker shell caching bug
