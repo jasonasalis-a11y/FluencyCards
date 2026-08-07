@@ -1,0 +1,121 @@
+erDiagram
+    courses ||--o{ course_versions : "has versions"
+    course_versions ||--o{ course_card_images : "references"
+    images ||--o{ course_card_images : "used in"
+    images ||--o{ image_tags : "tagged with"
+    courses ||--o{ image_generation_jobs : "generates images for"
+    image_generation_jobs ||--o{ image_generation_items : "contains"
+    images ||--o{ image_generation_items : "produces"
+
+    users ||--o| tutor_profiles : "becomes a tutor via"
+    tutor_profiles ||--o{ tutor_languages : "teaches"
+    tutor_profiles ||--o{ tutor_reviews : "receives"
+    users ||--o{ tutor_reviews : "writes"
+    tutor_profiles ||--o{ tutor_credit_purchases : "buys credits"
+    tutor_profiles ||--o{ tutor_signup_payments : "pays signup fee"
+    users ||--o{ connections : "requests (student)"
+    tutor_profiles ||--o{ connections : "accepts (tutor)"
+    courses ||--o{ connections : "studied via"
+    connections ||--o{ tutor_session_usage : "consumes credits"
+    connections ||--o| student_progress_sync : "mirrors live position"
+    connections ||--o{ student_review_queue_sync : "mirrors review queue"
+    connections ||--o{ tutor_reviews : "reviewed after"
+
+    courses {
+        TEXT course_id PK
+        TEXT title_en
+        TEXT current_version_id
+        INTEGER published
+    }
+    course_versions {
+        TEXT version_id PK
+        TEXT course_id FK
+        TEXT status
+        TEXT r2_object_key
+        TEXT content_sha256
+    }
+    images {
+        TEXT image_id PK
+        TEXT concept_id "= phrase_number by convention"
+        TEXT r2_key
+        INTEGER width "256 going forward"
+        INTEGER height "256 going forward"
+    }
+    course_card_images {
+        TEXT course_id PK_FK
+        TEXT course_version PK
+        TEXT activity_id PK
+        TEXT image_id FK
+    }
+    image_generation_jobs {
+        TEXT job_id PK
+        TEXT course_id
+        TEXT status
+    }
+    image_generation_items {
+        TEXT job_id PK_FK
+        TEXT activity_id PK
+        TEXT concept_id
+        TEXT image_id FK
+    }
+
+    users {
+        TEXT user_id PK
+        TEXT email
+        INTEGER role_flags "bitmask: student/tutor/creator/admin"
+        TEXT status
+    }
+    tutor_profiles {
+        TEXT tutor_id PK_FK
+        TEXT id_document_r2_key "private bucket"
+        TEXT application_status
+        INTEGER session_credit_balance
+        INTEGER is_course_creator
+    }
+    tutor_languages {
+        TEXT tutor_id PK_FK
+        TEXT language_code PK "cross-DB, no FK"
+        TEXT credential_type
+    }
+    tutor_reviews {
+        TEXT review_id PK
+        TEXT tutor_id FK
+        TEXT student_id FK
+        TEXT connection_id FK
+        INTEGER rating "1-5"
+    }
+    tutor_credit_purchases {
+        TEXT purchase_id PK
+        TEXT tutor_id FK
+        INTEGER sessions_purchased "default 100"
+        INTEGER amount_cents "default 1000"
+    }
+    tutor_signup_payments {
+        TEXT payment_id PK
+        TEXT tutor_id FK
+        INTEGER amount_cents "default 2000"
+    }
+    connections {
+        TEXT connection_id PK
+        TEXT student_id FK
+        TEXT tutor_id FK
+        TEXT course_id FK
+        TEXT status "requested/accepted/declined/ended"
+    }
+    tutor_session_usage {
+        TEXT usage_id PK
+        TEXT tutor_id FK
+        TEXT connection_id FK
+        INTEGER session_cost_cents "default 10"
+    }
+    student_progress_sync {
+        TEXT connection_id PK_FK
+        TEXT lesson_id
+        TEXT current_activity_id
+        TEXT updated_at
+    }
+    student_review_queue_sync {
+        TEXT connection_id PK_FK
+        TEXT item_id PK
+        TEXT reason "wrong_answer/low_rating"
+    }

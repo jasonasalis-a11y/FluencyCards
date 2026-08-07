@@ -1,0 +1,93 @@
+erDiagram
+    languages ||--o{ translations : "translated into"
+    languages ||--o{ phonics_inventory : "has phonemes"
+    languages ||--o{ phonics_card_assignments : "sequenced for"
+    languages ||--o{ audio_assets : "voiced in"
+    languages ||--o{ translation_jobs : "translation batches for"
+    languages ||--o{ audio_generation_jobs : "audio batches for"
+    languages ||--o{ course_build_jobs : "course builds for"
+
+    phrase_bank ||--o{ translations : "translated as"
+    phrase_bank ||--o{ audio_assets : "voiced as (phrase audio)"
+    phrase_bank ||--o{ audio_generation_items : "queued as"
+
+    phonics_inventory ||--o{ phonics_card_assignments : "placed as"
+    phonics_inventory ||--o{ audio_assets : "voiced as (phoneme audio)"
+    phonics_inventory ||--o{ audio_generation_items : "queued as"
+
+    translation_jobs ||--o{ translations : "produces (batch)"
+    audio_generation_jobs ||--o{ audio_generation_items : "contains"
+
+    languages {
+        TEXT language_code PK
+        TEXT english_name
+        TEXT status "planned/translating/phonics_pending/building/published"
+    }
+    phrase_bank {
+        INTEGER phrase_number PK "1..36000"
+        TEXT english_text
+        INTEGER module_number "1..400"
+        INTEGER lesson_number "1..5"
+        INTEGER position_in_lesson "1..18"
+        INTEGER complexity_tier
+        INTEGER is_survival_phrase
+    }
+    translations {
+        TEXT translation_id PK
+        INTEGER phrase_number FK
+        TEXT language_code FK
+        TEXT translated_text
+        REAL confidence_score "threshold 0.94"
+        TEXT status "pending/ai_approved/flagged/human_reviewed/approved/rejected"
+    }
+    phonics_inventory {
+        TEXT phoneme_id PK
+        TEXT language_code FK
+        TEXT grapheme
+        TEXT category "consonant/vowel/blend/digraph"
+        INTEGER frequency_rank
+        INTEGER mastery_target_module
+    }
+    phonics_card_assignments {
+        TEXT assignment_id PK
+        TEXT language_code FK
+        TEXT phoneme_id FK
+        INTEGER module_number
+        INTEGER lesson_number
+        TEXT card_variant "introduce/recall"
+    }
+    audio_assets {
+        TEXT asset_id PK
+        INTEGER phrase_number FK "null if phoneme audio"
+        TEXT phoneme_id FK "null if phrase audio"
+        TEXT language_code FK
+        TEXT source_type "edge_tts/other_tts/human"
+        TEXT object_key
+        INTEGER approved
+    }
+    translation_jobs {
+        TEXT job_id PK
+        TEXT language_code FK
+        INTEGER range_start
+        INTEGER range_end
+        TEXT status
+    }
+    audio_generation_jobs {
+        TEXT job_id PK
+        TEXT language_code FK
+        TEXT provider
+        TEXT status
+    }
+    audio_generation_items {
+        TEXT job_id PK_FK
+        INTEGER phrase_number FK
+        TEXT phoneme_id FK
+        TEXT status
+    }
+    course_build_jobs {
+        TEXT job_id PK
+        TEXT course_id "cross-DB, no FK"
+        TEXT language_code FK
+        TEXT output_r2_key
+        TEXT status
+    }
