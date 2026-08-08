@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "course_id": "spanish-for-english",
-  "version": "0.1.0-test",
+  "version": "0.1.1-test",
   "title": {
     "learning": "Español para Angloparlantes",
     "native": "Spanish for English Speakers"
@@ -49,7 +49,7 @@
   },
   "lessons": [
     {
-      "id": "M01",
+      "id": "M01L01",
       "module_number": 1,
       "lesson_number": 1,
       "title": {
@@ -62,75 +62,75 @@
       },
       "skills": [
         {
-          "id": "M01-S001",
+          "id": "M01L01-S001",
           "learning_text": "Buenos días.",
           "native_text": "Good morning.",
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-C001.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-C001.mp3",
           "retraining_activity_ids": [
-            "M01-C001-INTRO",
-            "M01-C001-RECALL"
+            "M01L01-C001-INTRO",
+            "M01L01-C001-RECALL"
           ]
         },
         {
-          "id": "M01-S002",
+          "id": "M01L01-S002",
           "learning_text": "¿Cómo estás?",
           "native_text": "How are you?",
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-C002.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-C002.mp3",
           "retraining_activity_ids": [
-            "M01-C002-INTRO",
-            "M01-C002-RECALL"
+            "M01L01-C002-INTRO",
+            "M01L01-C002-RECALL"
           ]
         }
       ],
       "activities": [
         {
-          "id": "M01-C001-INTRO",
+          "id": "M01L01-C001-INTRO",
           "type": "introduce",
           "skill_ids": [
-            "M01-S001"
+            "M01L01-S001"
           ],
           "mastery_domain": "instruction",
           "required_for_mastery": false,
           "icon": "🌅",
           "learning_text": "Buenos días.",
           "native_text": "Good morning.",
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-C001.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-C001.mp3",
           "recording": true
         },
         {
-          "id": "M01-C002-INTRO",
+          "id": "M01L01-C002-INTRO",
           "type": "introduce",
           "skill_ids": [
-            "M01-S002"
+            "M01L01-S002"
           ],
           "mastery_domain": "instruction",
           "required_for_mastery": false,
           "icon": "👋",
           "learning_text": "¿Cómo estás?",
           "native_text": "How are you?",
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-C002.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-C002.mp3",
           "recording": true
         },
         {
-          "id": "M01-PH001-INTRODUCE",
+          "id": "M01L01-PH001-INTRODUCE",
           "type": "phonics",
           "variant": "introduce",
           "mastery_domain": "instruction",
           "required_for_mastery": false,
           "grapheme": "ñ",
           "ipa": "/ɲ/",
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-PH001-SOUND.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-PH001-SOUND.mp3",
           "example_learning_text": "mañana",
           "example_native_text": "tomorrow / morning",
-          "example_audio": "courses/spanish-for-english/audio/M01/M01-PH001-WORD.mp3"
+          "example_audio": "courses/spanish-for-english/audio/M01L01/M01L01-PH001-WORD.mp3"
         }
       ],
       "assessment": [
         {
-          "id": "M01-C001-RECALL",
+          "id": "M01L01-C001-RECALL",
           "type": "prompt_speak",
           "skill_ids": [
-            "M01-S001"
+            "M01L01-S001"
           ],
           "mastery_domain": "recall",
           "required_for_mastery": true,
@@ -142,15 +142,15 @@
             "language": "es",
             "text": "Buenos días."
           },
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-C001.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-C001.mp3",
           "reveal_after_attempt": true,
           "self_check_until_scoring_available": true
         },
         {
-          "id": "M01-C002-RECALL",
+          "id": "M01L01-C002-RECALL",
           "type": "prompt_speak",
           "skill_ids": [
-            "M01-S002"
+            "M01L01-S002"
           ],
           "mastery_domain": "recall",
           "required_for_mastery": true,
@@ -162,15 +162,15 @@
             "language": "es",
             "text": "¿Cómo estás?"
           },
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-C002.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-C002.mp3",
           "reveal_after_attempt": true,
           "self_check_until_scoring_available": true
         },
         {
-          "id": "M01-MC001",
+          "id": "M01L01-MC001",
           "type": "multiple_choice",
           "skill_ids": [
-            "M01-S001"
+            "M01L01-S001"
           ],
           "mastery_domain": "comprehension",
           "required_for_mastery": true,
@@ -193,17 +193,17 @@
           ]
         },
         {
-          "id": "M01-PH001-RECALL",
+          "id": "M01L01-PH001-RECALL",
           "type": "phonics",
           "variant": "recall",
           "mastery_domain": "recall",
           "required_for_mastery": true,
           "grapheme": "ñ",
           "ipa": "/ɲ/",
-          "model_audio": "courses/spanish-for-english/audio/M01/M01-PH001-SOUND.mp3",
+          "model_audio": "courses/spanish-for-english/audio/M01L01/M01L01-PH001-SOUND.mp3",
           "example_learning_text": "mañana",
           "example_native_text": "tomorrow / morning",
-          "example_audio": "courses/spanish-for-english/audio/M01/M01-PH001-WORD.mp3"
+          "example_audio": "courses/spanish-for-english/audio/M01L01/M01L01-PH001-WORD.mp3"
         }
       ]
     },

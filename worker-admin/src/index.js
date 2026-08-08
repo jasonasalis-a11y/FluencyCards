@@ -98,9 +98,17 @@ export function collectAudioRefs(course){
     for(const s of lesson.skills||[])add(s.model_audio,s.learning_text,s.id,course.learning_language);
     for(const c of lesson.cards||[])add(c.audio||c.model_audio,c.learning_text||c.english||c.back?.text,c.id,course.learning_language);
     for(const a of [...(lesson.activities||[]),...(lesson.assessment||[])]){
+      if(a.type==='phonics'){
+        // Phonics has no learning_text/expected.text, so it can't fall through
+        // the generic line below — that's exactly what produced empty-text
+        // manifest entries (and silently skipped audio) before this fix.
+        // The sound file is synthesized from the grapheme itself.
+        add(a.model_audio,a.grapheme,a.id,course.learning_language);
+        add(a.example_audio,a.example_learning_text,a.id+'-EXAMPLE',course.learning_language);
+        continue;
+      }
       add(a.model_audio,a.learning_text||a.expected?.text,a.id,course.learning_language);
       for(const t of a.turns||[])add(t.audio,t.learning_text,t.id||a.id,course.learning_language);
-      if(a.type==='phonics')add(a.example_audio,a.example_learning_text,a.id+'-EXAMPLE',course.learning_language);
     }
   }
   return [...out.values()];

@@ -1,3 +1,3 @@
 component=pwa
-version=0.9.8.0
-summary=Learning Core: mastery/review system, phonics cards, content flagging, streaks/badges, mastery-engine.js wired in, new Spanish test course
+version=n/a
+summary=Fix collectAudioRefs phonics text bug + lesson-1 ID naming inconsistency in spanish-for-english course
