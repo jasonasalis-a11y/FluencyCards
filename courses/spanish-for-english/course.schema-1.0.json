@@ -1,0 +1,855 @@
+{
+  "schema_version": "1.0.0",
+  "course_id": "spanish-for-english",
+  "version": "0.1.0-test",
+  "title": {
+    "learning": "Español para Angloparlantes",
+    "native": "Spanish for English Speakers"
+  },
+  "description": {
+    "learning": "Curso de prueba de un módulo para validar el sistema de dominio y revisión.",
+    "native": "One-module test course for validating the mastery/review system."
+  },
+  "native_language": "en",
+  "learning_language": "es",
+  "minimum_player_version": "0.9.7.0",
+  "license": "CC-BY-NC-SA-4.0",
+  "author": "Jason Salis",
+  "review_metadata": {
+    "translation_method": "human-authored-test-content",
+    "models_used": [],
+    "native_review_status": "unreviewed",
+    "native_reviewers": 0,
+    "last_language_review": null
+  },
+  "mastery_policy": {
+    "required_domains": [
+      "comprehension",
+      "recall",
+      "conversation"
+    ],
+    "go_thresholds": {
+      "comprehension": 1.0,
+      "recall": 1.0,
+      "conversation": 1.0,
+      "pronunciation": 1.0
+    },
+    "max_supported_attempts": 3
+  },
+  "audit_policy": {
+    "every_n_lessons": 3,
+    "sample_size": 5,
+    "retention_intervals_days": [
+      1,
+      3,
+      7,
+      14,
+      30
+    ]
+  },
+  "lessons": [
+    {
+      "id": "M01",
+      "module_number": 1,
+      "lesson_number": 1,
+      "title": {
+        "learning": "Buenos días",
+        "native": "Good Morning"
+      },
+      "objective": {
+        "learning": "Saludar y preguntar cómo está alguien.",
+        "native": "Greet someone and ask how they are."
+      },
+      "skills": [
+        {
+          "id": "M01-S001",
+          "learning_text": "Buenos días.",
+          "native_text": "Good morning.",
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-C001.mp3",
+          "retraining_activity_ids": [
+            "M01-C001-INTRO",
+            "M01-C001-RECALL"
+          ]
+        },
+        {
+          "id": "M01-S002",
+          "learning_text": "¿Cómo estás?",
+          "native_text": "How are you?",
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-C002.mp3",
+          "retraining_activity_ids": [
+            "M01-C002-INTRO",
+            "M01-C002-RECALL"
+          ]
+        }
+      ],
+      "activities": [
+        {
+          "id": "M01-C001-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S001"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🌅",
+          "learning_text": "Buenos días.",
+          "native_text": "Good morning.",
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-C001.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-C002-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01-S002"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "👋",
+          "learning_text": "¿Cómo estás?",
+          "native_text": "How are you?",
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-C002.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01-PH001-INTRODUCE",
+          "type": "phonics",
+          "variant": "introduce",
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "grapheme": "ñ",
+          "ipa": "/ɲ/",
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-PH001-SOUND.mp3",
+          "example_learning_text": "mañana",
+          "example_native_text": "tomorrow / morning",
+          "example_audio": "courses/spanish-for-english/audio/M01/M01-PH001-WORD.mp3"
+        }
+      ],
+      "assessment": [
+        {
+          "id": "M01-C001-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S001"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "Good morning."
+          },
+          "expected": {
+            "language": "es",
+            "text": "Buenos días."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-C001.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-C002-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01-S002"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "How are you?"
+          },
+          "expected": {
+            "language": "es",
+            "text": "¿Cómo estás?"
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-C002.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01-MC001",
+          "type": "multiple_choice",
+          "skill_ids": [
+            "M01-S001"
+          ],
+          "mastery_domain": "comprehension",
+          "required_for_mastery": true,
+          "prompt": {
+            "text": "Which one means 'Good morning'?"
+          },
+          "choices": [
+            {
+              "text": "Buenos días",
+              "correct": true
+            },
+            {
+              "text": "Buenas noches",
+              "correct": false
+            },
+            {
+              "text": "Gracias",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": "M01-PH001-RECALL",
+          "type": "phonics",
+          "variant": "recall",
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "grapheme": "ñ",
+          "ipa": "/ɲ/",
+          "model_audio": "courses/spanish-for-english/audio/M01/M01-PH001-SOUND.mp3",
+          "example_learning_text": "mañana",
+          "example_native_text": "tomorrow / morning",
+          "example_audio": "courses/spanish-for-english/audio/M01/M01-PH001-WORD.mp3"
+        }
+      ]
+    },
+    {
+      "id": "M01L02",
+      "module_number": 1,
+      "lesson_number": 2,
+      "title": {
+        "learning": "Gracias",
+        "native": "Thank You"
+      },
+      "objective": {
+        "learning": "Expresar gratitud y responder cortésmente.",
+        "native": "Express thanks and respond politely."
+      },
+      "skills": [
+        {
+          "id": "M01L02-S001",
+          "learning_text": "Gracias.",
+          "native_text": "Thank you.",
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-C001.mp3",
+          "retraining_activity_ids": [
+            "M01L02-C001-INTRO",
+            "M01L02-C001-RECALL"
+          ]
+        },
+        {
+          "id": "M01L02-S002",
+          "learning_text": "De nada.",
+          "native_text": "You're welcome.",
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-C002.mp3",
+          "retraining_activity_ids": [
+            "M01L02-C002-INTRO",
+            "M01L02-C002-RECALL"
+          ]
+        }
+      ],
+      "activities": [
+        {
+          "id": "M01L02-C001-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L02-S001"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🙏",
+          "learning_text": "Gracias.",
+          "native_text": "Thank you.",
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-C001.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L02-C002-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L02-S002"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "😊",
+          "learning_text": "De nada.",
+          "native_text": "You're welcome.",
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-C002.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L02-PH002-INTRODUCE",
+          "type": "phonics",
+          "variant": "introduce",
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "grapheme": "ll",
+          "ipa": "/ʝ/",
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-PH002-SOUND.mp3",
+          "example_learning_text": "llamar",
+          "example_native_text": "to call",
+          "example_audio": "courses/spanish-for-english/audio/M01L02/M01L02-PH002-WORD.mp3"
+        }
+      ],
+      "assessment": [
+        {
+          "id": "M01L02-C001-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L02-S001"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "Thank you."
+          },
+          "expected": {
+            "language": "es",
+            "text": "Gracias."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-C001.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01L02-C002-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L02-S002"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "You're welcome."
+          },
+          "expected": {
+            "language": "es",
+            "text": "De nada."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-C002.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01L02-MC001",
+          "type": "multiple_choice",
+          "skill_ids": [
+            "M01L02-S001"
+          ],
+          "mastery_domain": "comprehension",
+          "required_for_mastery": true,
+          "prompt": {
+            "text": "Which one means 'Thank you'?"
+          },
+          "choices": [
+            {
+              "text": "Gracias",
+              "correct": true
+            },
+            {
+              "text": "Por favor",
+              "correct": false
+            },
+            {
+              "text": "Lo siento",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": "M01L02-PH002-RECALL",
+          "type": "phonics",
+          "variant": "recall",
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "grapheme": "ll",
+          "ipa": "/ʝ/",
+          "model_audio": "courses/spanish-for-english/audio/M01L02/M01L02-PH002-SOUND.mp3",
+          "example_learning_text": "llamar",
+          "example_native_text": "to call",
+          "example_audio": "courses/spanish-for-english/audio/M01L02/M01L02-PH002-WORD.mp3"
+        }
+      ]
+    },
+    {
+      "id": "M01L03",
+      "module_number": 1,
+      "lesson_number": 3,
+      "title": {
+        "learning": "¿Cómo te llamas?",
+        "native": "What's Your Name?"
+      },
+      "objective": {
+        "learning": "Presentarse y preguntar el nombre de alguien.",
+        "native": "Introduce yourself and ask someone's name."
+      },
+      "skills": [
+        {
+          "id": "M01L03-S001",
+          "learning_text": "¿Cómo te llamas?",
+          "native_text": "What's your name?",
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-C001.mp3",
+          "retraining_activity_ids": [
+            "M01L03-C001-INTRO",
+            "M01L03-C001-RECALL"
+          ]
+        },
+        {
+          "id": "M01L03-S002",
+          "learning_text": "Me llamo...",
+          "native_text": "My name is...",
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-C002.mp3",
+          "retraining_activity_ids": [
+            "M01L03-C002-INTRO",
+            "M01L03-C002-RECALL"
+          ]
+        }
+      ],
+      "activities": [
+        {
+          "id": "M01L03-C001-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L03-S001"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "❓",
+          "learning_text": "¿Cómo te llamas?",
+          "native_text": "What's your name?",
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-C001.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L03-C002-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L03-S002"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🙋",
+          "learning_text": "Me llamo...",
+          "native_text": "My name is...",
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-C002.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L03-PH003-INTRODUCE",
+          "type": "phonics",
+          "variant": "introduce",
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "grapheme": "rr",
+          "ipa": "/r/",
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-PH003-SOUND.mp3",
+          "example_learning_text": "perro",
+          "example_native_text": "dog",
+          "example_audio": "courses/spanish-for-english/audio/M01L03/M01L03-PH003-WORD.mp3"
+        }
+      ],
+      "assessment": [
+        {
+          "id": "M01L03-C001-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L03-S001"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "What's your name?"
+          },
+          "expected": {
+            "language": "es",
+            "text": "¿Cómo te llamas?"
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-C001.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01L03-C002-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L03-S002"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "My name is..."
+          },
+          "expected": {
+            "language": "es",
+            "text": "Me llamo..."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-C002.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01L03-MC001",
+          "type": "multiple_choice",
+          "skill_ids": [
+            "M01L03-S002"
+          ],
+          "mastery_domain": "comprehension",
+          "required_for_mastery": true,
+          "prompt": {
+            "text": "Which one means 'My name is'?"
+          },
+          "choices": [
+            {
+              "text": "Me llamo",
+              "correct": true
+            },
+            {
+              "text": "Te llamo",
+              "correct": false
+            },
+            {
+              "text": "Se llama",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": "M01L03-PH003-RECALL",
+          "type": "phonics",
+          "variant": "recall",
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "grapheme": "rr",
+          "ipa": "/r/",
+          "model_audio": "courses/spanish-for-english/audio/M01L03/M01L03-PH003-SOUND.mp3",
+          "example_learning_text": "perro",
+          "example_native_text": "dog",
+          "example_audio": "courses/spanish-for-english/audio/M01L03/M01L03-PH003-WORD.mp3"
+        },
+        {
+          "id": "M01L03-CONVERSATION",
+          "type": "conversation",
+          "mastery_domain": "conversation",
+          "required_for_mastery": true,
+          "turns": [
+            {
+              "speaker": "learner",
+              "learning_text": "¡Hola! ¿Cómo te llamas?",
+              "native_text": "Hi! What's your name?",
+              "audio": "courses/spanish-for-english/audio/M01L03/M01L03-CONV-01.mp3"
+            },
+            {
+              "speaker": "partner",
+              "learning_text": "Me llamo Ana. ¿Y tú?",
+              "native_text": "My name is Ana. And you?",
+              "audio": "courses/spanish-for-english/audio/M01L03/M01L03-CONV-02.mp3"
+            },
+            {
+              "speaker": "learner",
+              "learning_text": "Me llamo Alex. Mucho gusto.",
+              "native_text": "My name is Alex. Nice to meet you.",
+              "audio": "courses/spanish-for-english/audio/M01L03/M01L03-CONV-03.mp3"
+            },
+            {
+              "speaker": "partner",
+              "learning_text": "Mucho gusto también.",
+              "native_text": "Nice to meet you too.",
+              "audio": "courses/spanish-for-english/audio/M01L03/M01L03-CONV-04.mp3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "M01L04",
+      "module_number": 1,
+      "lesson_number": 4,
+      "title": {
+        "learning": "¿Cuánto cuesta?",
+        "native": "How Much Is It?"
+      },
+      "objective": {
+        "learning": "Contar y preguntar el precio.",
+        "native": "Count and ask about price."
+      },
+      "skills": [
+        {
+          "id": "M01L04-S001",
+          "learning_text": "Uno, dos, tres.",
+          "native_text": "One, two, three.",
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-C001.mp3",
+          "retraining_activity_ids": [
+            "M01L04-C001-INTRO",
+            "M01L04-C001-RECALL"
+          ]
+        },
+        {
+          "id": "M01L04-S002",
+          "learning_text": "¿Cuánto cuesta?",
+          "native_text": "How much is it?",
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-C002.mp3",
+          "retraining_activity_ids": [
+            "M01L04-C002-INTRO",
+            "M01L04-C002-RECALL"
+          ]
+        }
+      ],
+      "activities": [
+        {
+          "id": "M01L04-C001-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L04-S001"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🔢",
+          "learning_text": "Uno, dos, tres.",
+          "native_text": "One, two, three.",
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-C001.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L04-C002-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L04-S002"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "💰",
+          "learning_text": "¿Cuánto cuesta?",
+          "native_text": "How much is it?",
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-C002.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L04-PH004-INTRODUCE",
+          "type": "phonics",
+          "variant": "introduce",
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "grapheme": "j",
+          "ipa": "/x/",
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-PH004-SOUND.mp3",
+          "example_learning_text": "trabajo",
+          "example_native_text": "work",
+          "example_audio": "courses/spanish-for-english/audio/M01L04/M01L04-PH004-WORD.mp3"
+        }
+      ],
+      "assessment": [
+        {
+          "id": "M01L04-C001-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L04-S001"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "One, two, three."
+          },
+          "expected": {
+            "language": "es",
+            "text": "Uno, dos, tres."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-C001.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true,
+          "prompt_language": "learning"
+        },
+        {
+          "id": "M01L04-C002-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L04-S002"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "How much is it?"
+          },
+          "expected": {
+            "language": "es",
+            "text": "¿Cuánto cuesta?"
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-C002.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01L04-MC001",
+          "type": "multiple_choice",
+          "skill_ids": [
+            "M01L04-S002"
+          ],
+          "mastery_domain": "comprehension",
+          "required_for_mastery": true,
+          "prompt": {
+            "text": "Which one means 'How much is it?'"
+          },
+          "choices": [
+            {
+              "text": "¿Cuánto cuesta?",
+              "correct": true
+            },
+            {
+              "text": "¿Qué hora es?",
+              "correct": false
+            },
+            {
+              "text": "¿Dónde está?",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "id": "M01L04-PH004-RECALL",
+          "type": "phonics",
+          "variant": "recall",
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "grapheme": "j",
+          "ipa": "/x/",
+          "model_audio": "courses/spanish-for-english/audio/M01L04/M01L04-PH004-SOUND.mp3",
+          "example_learning_text": "trabajo",
+          "example_native_text": "work",
+          "example_audio": "courses/spanish-for-english/audio/M01L04/M01L04-PH004-WORD.mp3"
+        }
+      ]
+    },
+    {
+      "id": "M01L05",
+      "module_number": 1,
+      "lesson_number": 5,
+      "title": {
+        "learning": "Adiós",
+        "native": "Goodbye"
+      },
+      "objective": {
+        "learning": "Despedirse cortésmente.",
+        "native": "Say goodbye politely."
+      },
+      "skills": [
+        {
+          "id": "M01L05-S001",
+          "learning_text": "Adiós.",
+          "native_text": "Goodbye.",
+          "model_audio": "courses/spanish-for-english/audio/M01L05/M01L05-C001.mp3",
+          "retraining_activity_ids": [
+            "M01L05-C001-INTRO",
+            "M01L05-C001-RECALL"
+          ]
+        },
+        {
+          "id": "M01L05-S002",
+          "learning_text": "Hasta luego.",
+          "native_text": "See you later.",
+          "model_audio": "courses/spanish-for-english/audio/M01L05/M01L05-C002.mp3",
+          "retraining_activity_ids": [
+            "M01L05-C002-INTRO",
+            "M01L05-C002-RECALL"
+          ]
+        }
+      ],
+      "activities": [
+        {
+          "id": "M01L05-C001-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L05-S001"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "👋",
+          "learning_text": "Adiós.",
+          "native_text": "Goodbye.",
+          "model_audio": "courses/spanish-for-english/audio/M01L05/M01L05-C001.mp3",
+          "recording": true
+        },
+        {
+          "id": "M01L05-C002-INTRO",
+          "type": "introduce",
+          "skill_ids": [
+            "M01L05-S002"
+          ],
+          "mastery_domain": "instruction",
+          "required_for_mastery": false,
+          "icon": "🕐",
+          "learning_text": "Hasta luego.",
+          "native_text": "See you later.",
+          "model_audio": "courses/spanish-for-english/audio/M01L05/M01L05-C002.mp3",
+          "recording": true
+        }
+      ],
+      "assessment": [
+        {
+          "id": "M01L05-C001-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L05-S001"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "Goodbye."
+          },
+          "expected": {
+            "language": "es",
+            "text": "Adiós."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L05/M01L05-C001.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true,
+          "prompt_language": "learning"
+        },
+        {
+          "id": "M01L05-C002-RECALL",
+          "type": "prompt_speak",
+          "skill_ids": [
+            "M01L05-S002"
+          ],
+          "mastery_domain": "recall",
+          "required_for_mastery": true,
+          "prompt": {
+            "language": "en",
+            "text": "See you later."
+          },
+          "expected": {
+            "language": "es",
+            "text": "Hasta luego."
+          },
+          "model_audio": "courses/spanish-for-english/audio/M01L05/M01L05-C002.mp3",
+          "reveal_after_attempt": true,
+          "self_check_until_scoring_available": true
+        },
+        {
+          "id": "M01L05-MC001",
+          "type": "multiple_choice",
+          "skill_ids": [
+            "M01L05-S001"
+          ],
+          "mastery_domain": "comprehension",
+          "required_for_mastery": true,
+          "prompt": {
+            "text": "Which one means 'Goodbye'?"
+          },
+          "choices": [
+            {
+              "text": "Adiós",
+              "correct": true
+            },
+            {
+              "text": "Hola",
+              "correct": false
+            },
+            {
+              "text": "Buenas tardes",
+              "correct": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

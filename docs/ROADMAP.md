@@ -17,6 +17,12 @@ new database, no payments, no accounts.
 - **Phonics card type.** `introduce` + `recall` variants, course-schema addition for
   a `phonics` activity type, and the `prompt_language` field so recall cards can
   switch from native → learning-language prompts once phonics are mastered.
+  **Standing rule, not just for this release:** any future card type that carries
+  its own audio field(s) needs `collectAudioRefs()` in `worker-admin/src/index.js`
+  updated to capture them — the manifest tool doesn't discover new fields on its
+  own. Phonics needed this for its second field (`example_audio`, alongside the
+  generically-handled `model_audio`); see the comment left directly in that
+  function as of the v0.9.7 phonics build.
 - **Content-flag button, with structured reasons, not a freeform "something's
   wrong."** Tapping it shows a short pick-list — translation is wrong, language
   isn't natural/isn't how a native speaker would actually say it, culturally

@@ -86,6 +86,12 @@ export function validateCourse(c){
   return {valid:errors.length===0,errors,warnings,lesson_count:c.lessons?.length||0,audio_reference_count:audio.length};
 }
 export function collectAudioRefs(course){
+  // NOTE: when adding any new activity type that carries audio, add its field(s)
+  // here explicitly. The generic a.model_audio line below only covers the single
+  // "primary" audio field shared by most types — a type with a *second* audio
+  // field (like phonics' phoneme sound + separate example-word audio) needs its
+  // own add(...) call, or that second file silently never makes it into the
+  // manifest and Admin → Audio will never know it needs generating.
   const out=new Map();
   const add=(path,text,itemId,language)=>{if(!path)return;const key=String(path).replace(/^\//,'');if(!out.has(key))out.set(key,{path:key,text:text||'',item_id:itemId||'',language:language||course.learning_language||'en-US'})};
   for(const lesson of course.lessons||[]){
@@ -94,6 +100,7 @@ export function collectAudioRefs(course){
     for(const a of [...(lesson.activities||[]),...(lesson.assessment||[])]){
       add(a.model_audio,a.learning_text||a.expected?.text,a.id,course.learning_language);
       for(const t of a.turns||[])add(t.audio,t.learning_text,t.id||a.id,course.learning_language);
+      if(a.type==='phonics')add(a.example_audio,a.example_learning_text,a.id+'-EXAMPLE',course.learning_language);
     }
   }
   return [...out.values()];
